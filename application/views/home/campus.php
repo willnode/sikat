@@ -23,12 +23,30 @@
 <div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="campus-stat">
-		<div>Akreditasi X</div>
-		<div>X Pengajar</div>
-		<div>X Mahasiswa</div>
-		<div>X Alumni</div>
-		<div>X Program Studi</div>
-		<div>X Organisasi</div>
+		<div class="text-center">
+			<div class="h2">B</div>
+			<div>Akreditasi</div>
+		</div>
+		<div class="text-center">
+			<div class="h2">1</div>
+			<div>Dosen</div>
+		</div>
+		<div class="text-center">
+			<div class="h2">1</div>
+			<div>Mahasiswa</div>
+		</div>
+		<div class="text-center">
+			<div class="h2">1</div>
+			<div>Alumni</div>
+		</div>
+		<div class="text-center">
+			<div class="h2">17</div>
+			<div>Program Study</div>
+		</div>
+		<div class="text-center">
+			<div class="h2">20</div>
+			<div>Organisasi</div>
+		</div>
 	</div>
 </div>
 
