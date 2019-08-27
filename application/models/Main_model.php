@@ -33,7 +33,10 @@ class Main_model extends CI_Model {
 
   function getProgramDatabase($id){
 	return (object)[
-		'program' => $this->dbGetLocalized('programs', ['program_id'], ['programs.program_id' => $id])->result_array()[0]
+		'program' => $this->dbGetLocalized('programs', ['program_id'], ['programs.program_id' => $id])->result_array()[0],
+		'stats' => (object)[
+			'students' => $this->db->get_where("students", ["program_id" => $id])->num_rows()
+		]
 	];
   }
 
@@ -47,6 +50,12 @@ class Main_model extends CI_Model {
   function getLecturerDatabase($id){
 	return (object)[
 		'lecturer' => $this->db->get_where("lecturers", ["lecturer_id" => $id])->result_array()[0]
+	];
+  }
+
+  function getOrganizationDatabase($id){
+	return (object)[
+		'organization' => $this->dbGetLocalized('organizations', ['org_id'], ['organizations.org_id' => $id])->result_array()[0]
 	];
   }
 

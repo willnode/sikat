@@ -1,11 +1,13 @@
 
 <div class="text-center">
 	<div>
-		<h1><div class="campus-logo">Logo</div> <?=$campus['name']?></h1>
+		<h1><div class="campus-logo">
+			<img class="w-100" alt="" src="<?=base_url('files/logos/campus.png')?>">
+		</div> <?=$campus['name']?></h1>
 	</div>
 </div>
 
-<div class="container">
+<div class="box-section">
 	<div class="container-label">Fakultas</div>
 	<div class="campus-list">
 		<?php foreach ($faculties as $faculty) : ?>
@@ -18,7 +20,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="campus-stat">
 		<div>Akreditasi X</div>
@@ -30,10 +32,10 @@
 	</div>
 </div>
 
-<div class="container">
+<div class="box-section">
 	<div class="container-label">Jabatan</div>
 </div>
 
-<div class="container">
+<div class="box-section">
 	<div class="container-label">Organisasi</div>
 </div>

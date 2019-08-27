@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand" href="<?=base_url()?>">
-	<div class="campus-logo-small">Logo</div>
+	<div class="campus-logo-small"><img class="w-100" alt="" src="<?=base_url('files/navicon.png')?>"></div>
     UTM
   </a>
 

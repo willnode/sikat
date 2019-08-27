@@ -52,4 +52,15 @@ class Main extends CI_Controller {
 		$this->load->view('home/lecturer', $data);
 		$this->load->view('components/footer');
 	}
+
+
+	public function organization($id)
+	{
+		$this->load->model('Main_model');
+
+		$data = $this->Main_model->getOrganizationDatabase($id);
+		$this->load->view('components/header');
+		$this->load->view('home/organization', $data);
+		$this->load->view('components/footer');
+	}
 }
