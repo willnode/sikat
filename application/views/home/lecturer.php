@@ -1,5 +1,5 @@
 
-<div class="cv" id="container">
+<div class="cv">
 	<div class="d-flex flex-row align-items-center">
 	<div class="campus-logo">Foto</div>
 	<div>

@@ -2,7 +2,7 @@
 
 class Main_model extends CI_Model {
 
-	var $lang = 'en';
+	var $lang = 'id';
 
 	function dbGetLocalized($table, $joins, $where = [])
 	{

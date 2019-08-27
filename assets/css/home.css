@@ -1,8 +1,7 @@
 
 body {
 	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
+	font: 16px/24px normal Helvetica, Arial, sans-serif;
 	color: #4F5155;
 }
 
@@ -15,10 +14,6 @@ a {
 h1 {
 	color: #444;
 	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
 	padding: 14px 15px 10px 15px;
 }
 
@@ -46,10 +41,16 @@ p.footer {
 	margin: 20px 0 0 0;
 }
 
-#container {
+.container {
 	margin: 10px;
 	border: 1px solid #D0D0D0;
 	box-shadow: 0 0 8px #D0D0D0;
+}
+
+.container-label {
+	font-size: 2em;
+	padding: 0 1em;
+	margin: 1em 0;
 }
 
 .campus-list {
@@ -57,14 +58,19 @@ p.footer {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
+	margin: 1em;
 }
 
 .campus-list > div {
 	height: 150px;
 	border: 1px solid gray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
 }
 
-.campus-logo {
+.campus-logo, .campus-logo-small {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -76,6 +82,26 @@ p.footer {
 	font-size: 10pt;
 }
 
-.campus h1 {
+.campus-logo-small {
+	height: 32px;
+	width: 32px;
+	font-size: 6pt;
+}
+
+.campus-stat {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	border-left: 1px solid gainsboro;
+	border-right: 1px solid gainsboro;
+}
+
+.campus-stat > div {
+	padding: 1em;
+	flex-grow: 1;
+	flex-basis: 0;
 	text-align: center;
+	min-width: 25%;
+	border-left: 1px solid gainsboro;
+	border-right: 1px solid gainsboro;
 }

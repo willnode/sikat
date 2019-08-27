@@ -1,8 +1,12 @@
 
-<div class="campus" id="container">
+<div class="text-center">
 	<div>
 		<h1><div class="campus-logo">Logo</div> <?=$campus['name']?></h1>
 	</div>
+</div>
+
+<div class="container">
+	<div class="container-label">Fakultas</div>
 	<div class="campus-list">
 		<?php foreach ($faculties as $faculty) : ?>
 		<div class="col-3 p-2">
@@ -12,4 +16,24 @@
 		</div>
 		<?php endforeach ?>
 	</div>
+</div>
+
+<div class="container">
+	<div class="container-label">Bio</div>
+	<div class="campus-stat">
+		<div>Akreditasi X</div>
+		<div>X Pengajar</div>
+		<div>X Mahasiswa</div>
+		<div>X Alumni</div>
+		<div>X Program Studi</div>
+		<div>X Organisasi</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="container-label">Jabatan</div>
+</div>
+
+<div class="container">
+	<div class="container-label">Organisasi</div>
 </div>

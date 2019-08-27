@@ -8,3 +8,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?=base_url('assets/css/main.css')?>">
 </head>
 <body>
+<?php $this->load->view('components/navbar') ?>
