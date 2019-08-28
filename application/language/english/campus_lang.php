@@ -1,0 +1,19 @@
+<?php
+$lang['teacher'] = 'Lecturer';
+$lang['student'] = 'Student';
+$lang['organization'] = 'Organization';
+$lang['department'] = 'Department';
+$lang['program'] = 'Program Study';
+$lang['teachers'] = 'Lecturers';
+$lang['students'] = 'Students';
+$lang['organizations'] = 'Organizations';
+$lang['departments'] = 'Departments';
+$lang['programs'] = 'Program Studies';
+$lang['accreditation'] = 'Accreditation';
+$lang['alumni'] = 'Alumni';
+$lang['structure'] = 'Structure';
+$lang['events'] = 'Events';
+$lang['journals'] = 'Papers';
+$lang['achievements'] = 'Achievements';
+$lang['committees'] = 'Pengurus';
+$lang['members'] = 'Anggota';

@@ -1,0 +1,366 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Aug 28, 2019 at 08:43 PM
+-- Server version: 10.3.16-MariaDB
+-- PHP Version: 7.3.7
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `sikat`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `accounts`
+--
+
+CREATE TABLE `accounts` (
+  `user_id` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `type` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `campus`
+--
+
+CREATE TABLE `campus` (
+  `campus_id` varchar(255) NOT NULL,
+  `accreditation` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `departments`
+--
+
+CREATE TABLE `departments` (
+  `department_id` varchar(255) NOT NULL,
+  `campus_id` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `landing_configs`
+--
+
+CREATE TABLE `landing_configs` (
+  `id` varchar(255) NOT NULL,
+  `type` varchar(1) NOT NULL,
+  `color` varchar(7) NOT NULL,
+  `ordering` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__campus`
+--
+
+CREATE TABLE `localization__campus` (
+  `campus_id` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `summary` text NOT NULL,
+  `short_name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__departments`
+--
+
+CREATE TABLE `localization__departments` (
+  `department_id` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `summary` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__keywords`
+--
+
+CREATE TABLE `localization__keywords` (
+  `k` varchar(255) NOT NULL,
+  `v` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `s` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__organizations`
+--
+
+CREATE TABLE `localization__organizations` (
+  `organization_id` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `summary` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__programs`
+--
+
+CREATE TABLE `localization__programs` (
+  `program_id` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `summary` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `localization__structures`
+--
+
+CREATE TABLE `localization__structures` (
+  `structure_id` varchar(255) NOT NULL,
+  `person_id` varchar(255) NOT NULL,
+  `lang` varchar(5) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `organizations`
+--
+
+CREATE TABLE `organizations` (
+  `organization_id` varchar(255) NOT NULL,
+  `organization_parent` varchar(255) NOT NULL,
+  `launch_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `organization_events`
+--
+
+CREATE TABLE `organization_events` (
+  `event_id` int(11) NOT NULL,
+  `organization_id` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` text NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `programs`
+--
+
+CREATE TABLE `programs` (
+  `program_id` varchar(255) NOT NULL,
+  `program_type` varchar(2) NOT NULL,
+  `department_id` varchar(255) NOT NULL,
+  `accreditation` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `structures`
+--
+
+CREATE TABLE `structures` (
+  `structure_id` varchar(255) NOT NULL,
+  `person_id` varchar(255) NOT NULL,
+  `category` int(11) NOT NULL,
+  `ordering` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `student_id` varchar(255) NOT NULL,
+  `program_id` varchar(255) NOT NULL,
+  `program_type` varchar(2) NOT NULL,
+  `entry_date` date NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `birth_date` date NOT NULL,
+  `gender` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_achievements`
+--
+
+CREATE TABLE `student_achievements` (
+  `achievement_id` int(11) NOT NULL,
+  `student_id` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `institution` varchar(255) NOT NULL,
+  `link` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_alumni`
+--
+
+CREATE TABLE `student_alumni` (
+  `student_id` varchar(255) NOT NULL,
+  `essay_title` varchar(255) NOT NULL,
+  `yudisium` date NOT NULL,
+  `position` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teachers`
+--
+
+CREATE TABLE `teachers` (
+  `lecturer_id` varchar(255) NOT NULL,
+  `program_id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `employee_idn` varchar(255) NOT NULL,
+  `birth_place` varchar(255) NOT NULL,
+  `birth_date` date NOT NULL,
+  `gender` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `teacher_journals`
+--
+
+CREATE TABLE `teacher_journals` (
+  `journal_id` varchar(255) NOT NULL,
+  `lecturer_id` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `link` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `campus`
+--
+ALTER TABLE `campus`
+  ADD PRIMARY KEY (`campus_id`);
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`department_id`);
+
+--
+-- Indexes for table `localization__campus`
+--
+ALTER TABLE `localization__campus`
+  ADD PRIMARY KEY (`campus_id`,`lang`) USING BTREE;
+
+--
+-- Indexes for table `localization__departments`
+--
+ALTER TABLE `localization__departments`
+  ADD PRIMARY KEY (`department_id`,`lang`);
+
+--
+-- Indexes for table `localization__keywords`
+--
+ALTER TABLE `localization__keywords`
+  ADD PRIMARY KEY (`k`,`v`,`lang`);
+
+--
+-- Indexes for table `localization__organizations`
+--
+ALTER TABLE `localization__organizations`
+  ADD PRIMARY KEY (`organization_id`,`lang`);
+
+--
+-- Indexes for table `localization__programs`
+--
+ALTER TABLE `localization__programs`
+  ADD PRIMARY KEY (`program_id`,`lang`);
+
+--
+-- Indexes for table `localization__structures`
+--
+ALTER TABLE `localization__structures`
+  ADD PRIMARY KEY (`structure_id`,`person_id`,`lang`) USING BTREE;
+
+--
+-- Indexes for table `organizations`
+--
+ALTER TABLE `organizations`
+  ADD PRIMARY KEY (`organization_id`);
+
+--
+-- Indexes for table `programs`
+--
+ALTER TABLE `programs`
+  ADD PRIMARY KEY (`program_id`,`program_type`);
+
+--
+-- Indexes for table `structures`
+--
+ALTER TABLE `structures`
+  ADD PRIMARY KEY (`structure_id`,`person_id`);
+
+--
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`student_id`);
+
+--
+-- Indexes for table `teachers`
+--
+ALTER TABLE `teachers`
+  ADD PRIMARY KEY (`lecturer_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

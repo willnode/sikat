@@ -1,16 +1,25 @@
 
-<div class="text-center">
-	<h1><div class="campus-logo">
-	<img class="w-100" alt="" src="<?=base_url('files/logos/organization/'.$organization["org_id"].'.png')?>">
-	</div><?=$organization["name"]?></h1>
-</div>
+<?php $this->load->view('components/campus-hero', [
+	'id' => $organization['organization_id'],
+	'name' => $organization['name']
+	])?>
+
 
 <div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="campus-stat">
-		<div>X Pengurus</div>
-		<div>X Anggota</div>
-		<div>X Alumni</div>
+		<div class="text-center">
+			<div class="h2">B</div>
+			<div><?=lang('committees')?></div>
+		</div>
+		<div class="text-center">
+			<div class="h2">X</div>
+			<div><?=lang('members')?></div>
+		</div>
+		<div class="text-center">
+			<div class="h2">1</div>
+			<div><?=lang('alumni')?></div>
+		</div>
 	</div>
 </div>
 

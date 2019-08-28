@@ -82,6 +82,18 @@ p.footer {
 	font-size: 10pt;
 }
 
+.campus-hero, .campus-custom-hero {
+	text-align: center;
+	padding: 3rem 1rem;
+}
+.campus-custom-hero {
+	background: var(--bg) center/cover;
+}
+.campus-custom-hero h1 {
+	color: white;
+	text-shadow: 0 0 12px black;
+}
+
 .campus-logo-small {
 	height: 32px;
 	width: 32px;
@@ -92,8 +104,6 @@ p.footer {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	border-left: 1px solid gainsboro;
-	border-right: 1px solid gainsboro;
 }
 
 .campus-stat > div {
@@ -101,7 +111,6 @@ p.footer {
 	flex-grow: 1;
 	flex-basis: 0;
 	text-align: center;
-	min-width: 25%;
 	border-left: 1px solid gainsboro;
 	border-right: 1px solid gainsboro;
 }
