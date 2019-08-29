@@ -9,24 +9,22 @@
 	<div class="container-label">Bio</div>
 	<div class="campus-stat">
 		<div class="text-center">
-			<div class="h2">B</div>
+			<div class="h2"><?=$stats->committees?></div>
 			<div><?=lang('committees')?></div>
 		</div>
 		<div class="text-center">
-			<div class="h2">X</div>
+			<div class="h2"><?=$stats->members?></div>
 			<div><?=lang('members')?></div>
 		</div>
 		<div class="text-center">
-			<div class="h2">1</div>
+			<div class="h2"><?=$stats->alumni?></div>
 			<div><?=lang('alumni')?></div>
 		</div>
 	</div>
 </div>
 
-<div class="box-section">
-	<div class="container-label">Struktur</div>
-</div>
+<?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 
 <div class="box-section">
-	<div class="container-label">Events</div>
+	<div class="container-label"><?=lang('events')?></div>
 </div>

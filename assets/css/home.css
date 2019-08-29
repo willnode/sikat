@@ -68,18 +68,34 @@ p.footer {
 	align-items: center;
 	justify-content: center;
 	text-align: center;
+	flex-direction: column;
 }
 
-.campus-logo, .campus-logo-small {
+.campus-logo, .campus-logo-small, .campus-photo {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	vertical-align: middle;
-	height: 150px;
-	width: 150px;
 	text-align: center;
 	color: gainsboro;
+}
+
+.campus-photo {
+	height: 150px;
+	width: 150px;
 	font-size: 10pt;
+}
+
+.campus-logo {
+	height: 150px;
+	width: 150px;
+	font-size: 10pt;
+}
+
+.campus-logo-small {
+	height: 32px;
+	width: 32px;
+	font-size: 6pt;
 }
 
 .campus-hero, .campus-custom-hero {
@@ -94,11 +110,6 @@ p.footer {
 	text-shadow: 0 0 12px black;
 }
 
-.campus-logo-small {
-	height: 32px;
-	width: 32px;
-	font-size: 6pt;
-}
 
 .campus-stat {
 	display: flex;

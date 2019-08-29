@@ -22,11 +22,11 @@
 	<div class="campus-stat">
 		<div class="text-center">
 			<div class="h2"><?=$stats->teachers?></div>
-			<div><?=lang('teachers')?></div>
+			<div><a href="<?=base_url('teachers/'.$department['department_id'])?>"><?=lang('teachers')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->students?></div>
-			<div><?=lang('students')?></div>
+			<div><a href="<?=base_url('students/'.$department['department_id'])?>"><?=lang('students')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->alumni?></div>
@@ -39,9 +39,7 @@
 	</div>
 </div>
 
-<div class="box-section">
-	<div class="container-label"><?=lang('structure')?></div>
-</div>
+<?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 
 <div class="box-section">
 	<div class="container-label"><?=lang('organizations')?></div>

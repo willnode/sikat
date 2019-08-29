@@ -4,7 +4,7 @@
 	<div class="campus-logo">Foto</div>
 	<div>
 	<h2><?=$teacher["name"]?></h2>
-	<?=$teacher["teacher_id"]?>@trunojoyo.ac.id
+	<?=$teacher["teacher_id"]?>
 	</div>
 	</div>
 </div>

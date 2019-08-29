@@ -19,7 +19,7 @@ class Main_model extends CI_Model {
 
 	function dbGetLocalized($table, $joins, $where = [])
 	{
-		$this->db->join("localization__$table", join('AND', array_map(function($key) use($table) {
+		$this->db->join("localization__$table", join(' AND ', array_map(function($key) use($table) {
 			return "localization__$table.$key = $table.$key";
 		}, $joins)));
 		$this->db->where("localization__$table.lang = '$this->lang'");
@@ -29,19 +29,33 @@ class Main_model extends CI_Model {
 		return $this->db->get($table);
 	}
 
+	function dbGetStructureData($id)
+	{
+		$this->db->select([
+			'localization__structures.title',
+			'students.name as student_name',
+			'teachers.name as teacher_name',
+			'student_id', 'teacher_id'
+			]);
+		$this->db->join('students', 'structures.member_id = students.student_id', 'left outer');
+		$this->db->join('teachers', 'structures.member_id = teachers.teacher_id', 'left outer');
+		return $this->dbGetLocalized('structures',  ['structure_id', 'member_id'], ['structures.structure_id' => $id]);
+	}
+
 	function getCampusDatabase($id){
 	return (object)[
 		'campus' => $this->dbGetLocalized('campus', ['campus_id'], ['campus.campus_id' => $id])->result_array()[0],
 		'departments' => $this->dbGetLocalized('departments', ['department_id'])->result_array(),
 		'organizations' => $this->dbGetLocalized('organizations', ['organization_id'], ['organization_parent' => $id])->result_array(),
 		'stats' => (object)[
-			'students' => $this->db->get("students")->num_rows(),
-			'alumni' => $this->db->get("student_alumni")->num_rows(),
-			'teachers' => $this->db->get("teachers")->num_rows(),
-			'departments' => $this->db->get("departments")->num_rows(),
-			'programs' => $this->db->get("programs")->num_rows(),
-			'organizations' => $this->db->get("organizations")->num_rows()
-		]
+			'students' => $this->db->count_all_results("students"),
+			'alumni' => $this->db->count_all_results("student_alumni"),
+			'teachers' => $this->db->count_all_results("teachers"),
+			'departments' => $this->db->count_all_results("departments"),
+			'programs' => $this->db->count_all_results("programs"),
+			'organizations' => $this->db->count_all_results("organizations")
+		],
+		'structure' => $this->dbGetStructureData($id)->result_array()
 		];
 	}
 
@@ -51,17 +65,18 @@ class Main_model extends CI_Model {
 		'programs' => $this->dbGetLocalized('programs', ['program_id'], ['department_id' => $id])->result_array(),
 		'organizations' => $this->dbGetLocalized('organizations', ['organization_id'], ['organization_parent' => $id])->result_array(),
 		'stats' => (object)[
-			'programs' => $this->db->get_where("programs", ["department_id" => $id])->num_rows(),
+			'programs' => $this->db->where( ["department_id" => $id])->count_all_results("programs"),
 			'students' => $this->db->join('programs', 'programs.program_id = students.program_id')
-						->get_where("students", ["department_id" => $id])->num_rows(),
+						->where( ["department_id" => $id])->count_all_results("students"),
 			'alumni' => $this->db
 						->join('students', 'student_alumni.student_id = students.student_id')
 						->join('programs', 'programs.program_id = students.program_id')
-						->get_where("student_alumni", ["department_id" => $id])->num_rows(),
+						->where( ["department_id" => $id])->count_all_results("student_alumni"),
 			'teachers' => $this->db->join('programs', 'programs.program_id = teachers.program_id')
-						->get_where("teachers", ["department_id" => $id])->num_rows()
-		]
-		];
+						->where( ["department_id" => $id])->count_all_results("teachers")
+		],
+		'structure' => $this->dbGetStructureData($id)->result_array()
+	];
   }
 
   function getProgramDatabase($id){
@@ -69,11 +84,12 @@ class Main_model extends CI_Model {
 		'program' => $this->dbGetLocalized('programs', ['program_id'], ['programs.program_id' => $id])->result_array()[0],
 		'organizations' => $this->dbGetLocalized('organizations', ['organization_id'], ['organization_parent' => $id])->result_array(),
 		'stats' => (object)[
-			'students' => $this->db->get_where("students", ["program_id" => $id])->num_rows(),
+			'students' => $this->db->where( ["program_id" => $id])->count_all_results("students"),
 			'alumni' => $this->db->join('students', 'student_alumni.student_id = students.student_id')
-						->get_where("student_alumni", ["program_id" => $id])->num_rows(),
-			'teachers' => $this->db->get_where("teachers", ["program_id" => $id])->num_rows()
-		]
+						->where( ["program_id" => $id])->count_all_results("student_alumni"),
+			'teachers' => $this->db->where( ["program_id" => $id])->count_all_results("teachers")
+		],
+		'structure' => $this->dbGetStructureData($id)->result_array()
 	];
   }
 
@@ -90,9 +106,39 @@ class Main_model extends CI_Model {
   }
 
   function getOrganizationDatabase($id){
+
 	return (object)[
-		'organization' => $this->dbGetLocalized('organizations', ['organization_id'], ['organizations.organization_id' => $id])->result_array()[0]
+		'organization' => $this->dbGetLocalized('organizations', ['organization_id'], ['organizations.organization_id' => $id])->result_array()[0],
+		'stats' => (object)[
+			'members' => $this->db->where( ["organization_id" => $id])->count_all_results("organization_members"),
+			'alumni' => $this->db->join('organization_members', 'student_alumni.student_id = organization_members.member_id')
+						->where( ["organization_id" => $id])->count_all_results("student_alumni"),
+			'committees' => $this->db->where( ["structure_id" => $id])->count_all_results("structures")
+		],
+		'structure' => $this->dbGetStructureData($id)->result_array()
 	];
+  }
+
+  function getTeacherList($scope, $scope_type, $offset = 0, $limit = 0) {
+
+	switch ($scope_type) {
+		case 'd':
+			$this->db->join('programs', 'programs.program_id = teachers.program_id');
+			$this->db->where(['department_id' => $scope]);
+			break;
+		case 'p':
+			$this->db->where(['program_id' => $scope]);
+			break;
+		case 'c':
+		default:
+			# code...
+			break;
+	}
+
+	return (object)[
+		'teachers' => $this->db->get('teachers', $limit, $offset)->result_array()
+	];
+
   }
 
 }

@@ -39,6 +39,16 @@ class Main extends CI_Controller {
 		$this->load->view('components/footer');
 	}
 
+	public function search($type, $id = '')
+	{
+		$this->load->view('components/header');
+
+		$account = $this->Main_model->getAccountInfo($id);
+		$data = $this->Main_model->getTeacherList($id, $account['type'], 0, 50);
+		$this->load->view('search/teacher', $data);
+
+		$this->load->view('components/footer');
+	}
 	// public function department($id)
 	// {
 	// 	$data = $this->Main_model->getFacultyDatabase($id);
