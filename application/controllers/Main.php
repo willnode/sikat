@@ -41,11 +41,26 @@ class Main extends CI_Controller {
 
 	public function search($type, $id = '')
 	{
+		$page_count = 40;
+		$page = $this->input->get('page') ?: 1;
 		$this->load->view('components/header');
 
 		$account = $this->Main_model->getAccountInfo($id);
-		$data = $this->Main_model->getTeacherList($id, $account['type'], 0, 50);
-		$this->load->view('search/teacher', $data);
+		$data = NULL;
+		switch ($type) {
+			case 'student':
+			$data = $this->Main_model->getStudentList($id, $account['type'], ($page - 1) * $page_count, $page_count);
+			break;
+			case 'teacher':
+			$data = $this->Main_model->getTeacherList($id, $account['type'], ($page - 1) * $page_count, $page_count);
+			break;
+			case 'organization':
+			$data = $this->Main_model->getOrganizationList($id, $account['type'], ($page - 1) * $page_count, $page_count);
+			break;
+			default:
+			return;
+		}
+		$this->load->view('search/'.$type, $data);
 
 		$this->load->view('components/footer');
 	}

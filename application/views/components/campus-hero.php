@@ -3,10 +3,10 @@
 <?php else : ?>
 <div class="campus-hero">
 <?php endif ?>
-	<?php if (is_file("./files/logos/$id.png")) : ?>
 	<div class="campus-logo">
+	<?php if (is_file("./files/logos/$id.png")) : ?>
 		<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
-	</div>
 	<?php endif ?>
+	</div>
 	<h1><?=$name?></h1>
 </div>

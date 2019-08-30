@@ -63,7 +63,7 @@ p.footer {
 
 .campus-list > div {
 	height: 150px;
-	border: 1px solid gray;
+	border: 1px solid gainsboro;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -81,7 +81,7 @@ p.footer {
 }
 
 .campus-photo {
-	height: 150px;
+	height: 200px;
 	width: 150px;
 	font-size: 10pt;
 }
@@ -100,7 +100,7 @@ p.footer {
 
 .campus-hero, .campus-custom-hero {
 	text-align: center;
-	padding: 3rem 1rem;
+	padding: 5rem 1rem;
 }
 .campus-custom-hero {
 	background: var(--bg) center/cover;

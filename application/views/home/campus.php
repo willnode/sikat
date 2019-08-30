@@ -59,7 +59,7 @@
 		<?php foreach ($organizations as $organization) : ?>
 		<div class="col-3 p-2">
 			<a href="<?=base_url($organization["organization_id"])?>">
-			<?=$organization["name"]?></a>
+			<?=$organization["slug"]?></a>
 		</div>
 		<?php endforeach ?>
 	</div>

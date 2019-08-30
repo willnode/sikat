@@ -94,14 +94,47 @@ class Main_model extends CI_Model {
   }
 
   function getStudentDatabase($id){
+	$this->db->select([
+		'localization__programs.name as program_name',
+		'localization__departments.name as department_name',
+		'programs.program_id',
+		'programs.department_id',
+		'students.student_id',
+		'students.name',
+		'students.program_type',
+		'EXTRACT(YEAR from students.entry_date) as entry_year',
+		'(YEAR(CURRENT_TIMESTAMP) - YEAR(students.entry_date)) * 2 - 1 + (3 - FLOOR(MONTH(CURRENT_TIMESTAMP) / 6)) as semester'
+		]);
+	$this->db->join("programs", 'programs.program_id = students.program_id');
+	$this->db->join("localization__departments", 'localization__departments.department_id = programs.department_id');
+	$this->db->join("localization__programs", 'localization__programs.program_id = students.program_id');
+	$this->db->where("localization__programs.lang = '$this->lang'");
+	$this->db->where("localization__departments.lang = '$this->lang'");
+	$this->db->where(['students.student_id' => $id]);
 	return (object)[
-		'student' => $this->db->get_where("students", ["student_id" => $id])->result_array()[0]
+		'student' => $this->db->get('students', 1)->result_array()[0]
 	];
   }
 
   function getTeacherDatabase($id){
+	$this->db->select([
+		'localization__programs.name as program_name',
+		'localization__departments.name as department_name',
+		'programs.program_id',
+		'programs.department_id',
+		'teachers.teacher_id',
+		'teachers.name',
+		'teachers.employee_idn',
+		'teachers.lecturer_nidn',
+		]);
+	$this->db->join("programs", 'programs.program_id = teachers.program_id');
+	$this->db->join("localization__departments", 'localization__departments.department_id = programs.department_id');
+	$this->db->join("localization__programs", 'localization__programs.program_id = teachers.program_id');
+	$this->db->where("localization__programs.lang = '$this->lang'");
+	$this->db->where("localization__departments.lang = '$this->lang'");
+	$this->db->where(['teachers.teacher_id' => $id]);
 	return (object)[
-		'teacher' => $this->db->get_where("teachers", ["teacher_id" => $id])->result_array()[0]
+		'teacher' => $this->db->get('teachers', 1)->result_array()[0]
 	];
   }
 
@@ -141,4 +174,49 @@ class Main_model extends CI_Model {
 
   }
 
+
+  function getStudentList($scope, $scope_type, $offset = 0, $limit = 0) {
+
+	switch ($scope_type) {
+		case 'd':
+			$this->db->join('programs', 'programs.program_id = students.program_id');
+			$this->db->where(['department_id' => $scope]);
+			break;
+		case 'p':
+			$this->db->where(['program_id' => $scope]);
+			break;
+		case 'c':
+		default:
+			# code...
+			break;
+	}
+
+	return (object)[
+		'students' => $this->db->get('students', $limit, $offset)->result_array()
+	];
+
+  }
+
+
+  function getOrganizationList($scope, $scope_type, $offset = 0, $limit = 0) {
+
+	switch ($scope_type) {
+		case 'd':
+			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
+			$this->db->where(['department_id' => $scope]);
+			break;
+		case 'p':
+			$this->db->where(['organization_parent' => $scope]);
+			break;
+		case 'c':
+		default:
+			# code...
+			break;
+	}
+
+	return (object)[
+		'organizations' => $this->db->get('organizations', $limit, $offset)->result_array()
+	];
+
+  }
 }
