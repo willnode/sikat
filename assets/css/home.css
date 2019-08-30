@@ -69,9 +69,35 @@ p.footer {
 	justify-content: center;
 	text-align: center;
 	flex-direction: column;
+	position: relative;
+	overflow: hidden;
 }
 
-.campus-logo, .campus-logo-small, .campus-photo {
+.campus-list > .covered::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: var(--bg) center/cover;
+	z-index: -1;
+	filter: brightness(0.2);
+	transition: all 0.2s;
+}
+
+
+.campus-list > .covered:hover::before {
+	filter: brightness(0.5);
+	transform: scale(1.2);
+	font-weight: bold;
+}
+
+.campus-list > .covered a {
+	color: white;
+}
+
+.campus-logo, .campus-logo-sm, .campus-logo-md, .campus-photo {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -92,9 +118,15 @@ p.footer {
 	font-size: 10pt;
 }
 
-.campus-logo-small {
+.campus-logo-sm {
 	height: 32px;
 	width: 32px;
+	font-size: 6pt;
+}
+
+.campus-logo-md {
+	height: 80px;
+	width: 80px;
 	font-size: 6pt;
 }
 

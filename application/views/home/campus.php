@@ -34,33 +34,23 @@
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->alumni?></div>
-			<div><?=lang('alumni')?></div>
+			<div><a href="<?=base_url('alumni/'.$campus['campus_id'])?>"><?=lang('alumni')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->departments?></div>
-			<div><?=lang('departments')?></div>
+			<div><a href="<?=base_url('departments/'.$campus['campus_id'])?>"><?=lang('departments')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->programs?></div>
-			<div><?=lang('programs')?></div>
+			<div><a href="<?=base_url('programs/'.$campus['campus_id'])?>"><?=lang('programs')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->organizations?></div>
-			<div><?=lang('organizations')?></div>
+			<div><a href="<?=base_url('organizations/'.$campus['campus_id'])?>"><?=lang('organizations')?></a></div>
 		</div>
 	</div>
 </div>
 
 <?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 
-<div class="box-section">
-	<div class="container-label"><?=lang('organizations')?></div>
-	<div class="campus-list">
-		<?php foreach ($organizations as $organization) : ?>
-		<div class="col-3 p-2">
-			<a href="<?=base_url($organization["organization_id"])?>">
-			<?=$organization["slug"]?></a>
-		</div>
-		<?php endforeach ?>
-	</div>
-</div>
+<?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>

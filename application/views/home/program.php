@@ -33,14 +33,4 @@
 
 <?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 
-<div class="box-section">
-	<div class="container-label"><?=lang('organizations')?></div>
-	<div class="campus-list">
-		<?php foreach ($organizations as $organization) : ?>
-		<div class="col-3 p-2">
-			<a href="<?=base_url($organization["organization_id"])?>">
-			<?=$organization["slug"]?></a>
-		</div>
-		<?php endforeach ?>
-	</div>
-</div>
+<?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>

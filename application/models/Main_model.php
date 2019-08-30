@@ -162,14 +162,15 @@ class Main_model extends CI_Model {
 		case 'p':
 			$this->db->where(['program_id' => $scope]);
 			break;
-		case 'c':
-		default:
-			# code...
-			break;
 	}
 
+	$count = $this->db->count_all_results('teachers', FALSE);
+
 	return (object)[
-		'teachers' => $this->db->get('teachers', $limit, $offset)->result_array()
+		'teachers' => $this->db->get('', $limit, $offset)->result_array(),
+		'count' => $count,
+		'pagination' => $limit,
+		'scope' => $scope
 	];
 
   }
@@ -191,8 +192,13 @@ class Main_model extends CI_Model {
 			break;
 	}
 
+	$count = $this->db->count_all_results('students', FALSE);
+
 	return (object)[
-		'students' => $this->db->get('students', $limit, $offset)->result_array()
+		'students' => $this->db->get('', $limit, $offset)->result_array(),
+		'count' => $count,
+		'pagination' => $limit,
+		'scope' => $scope
 	];
 
   }
@@ -208,14 +214,15 @@ class Main_model extends CI_Model {
 		case 'p':
 			$this->db->where(['organization_parent' => $scope]);
 			break;
-		case 'c':
-		default:
-			# code...
-			break;
 	}
 
+	$count = $this->db->count_all_results('organizations', FALSE);
+
 	return (object)[
-		'organizations' => $this->db->get('organizations', $limit, $offset)->result_array()
+		'organizations' => $this->db->get('', $limit, $offset)->result_array(),
+		'count' => $count,
+		'pagination' => $limit,
+		'scope' => $scope
 	];
 
   }
