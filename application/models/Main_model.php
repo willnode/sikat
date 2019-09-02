@@ -4,7 +4,7 @@ class Main_model extends CI_Model {
 
 	function __construct()
 	{
-		$this->lang = ['english' => 'en', 'indonesian' => 'id'][$this->config->config['language']];
+		$this->lang = ['english' => 'en', 'indonesian' => 'id'][$this->session->userdata('site_lang') ?: $this->config->config['language']];
 	}
 
 	var $lang = 'id';

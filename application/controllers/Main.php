@@ -3,6 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Main extends CI_Controller {
 
+	public function __construct()
+	{
+			parent::__construct();
+	}
+
 	public function index($id = '')
 	{
 		$account = $this->Main_model->getAccountInfo($id);
@@ -63,5 +68,36 @@ class Main extends CI_Controller {
 		$this->load->view('search/'.$type, $data);
 
 		$this->load->view('components/footer');
+	}
+
+	public function login()
+	{
+		$this->load->model('Login_model');
+		if ($this->input->method() == 'post') {
+			$id = $this->input->post('username');
+			if ($this->Login_model->check_login($id, $this->input->post('password'))) {
+				$this->Login_model->set_current_login($id);
+				redirect(base_url('panel/dashboard'));
+			} else {
+				echo 'FAIL';
+				$this->load->view('admin/login');
+			}
+		} else if ($this->Login_model->is_logged_in()) {
+			redirect(base_url('panel/dashboard'));
+		} else {
+			$this->load->view('admin/login');
+		}
+
+
+	}
+
+	function logout(){
+		$this->session->sess_destroy();
+		redirect(base_url('login'));
+	}
+
+	function switch_lang($language = "") {
+		$this->session->set_userdata('site_lang', $language ?: "english");
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }
