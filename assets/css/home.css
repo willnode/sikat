@@ -10,6 +10,9 @@ a {
 	background-color: transparent;
 	font-weight: normal;
 }
+a:hover{
+	text-decoration: none;
+}
 
 h1 {
 	color: #444;
@@ -41,10 +44,19 @@ p.footer {
 	margin: 20px 0 0 0;
 }
 
+.footer a{
+	color: #fff;
+}
+
 .box-section {
 	margin: 10px;
 	border: 1px solid #D0D0D0;
 	box-shadow: 0 0 8px #D0D0D0;
+}
+
+.box-section a{
+	color: #000;
+	font-weight: bold;
 }
 
 .container-label {

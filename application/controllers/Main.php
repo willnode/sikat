@@ -41,7 +41,7 @@ class Main extends CI_Controller {
 				# code...
 				break;
 		}
-		$this->load->view('components/footer');
+		$this->load->view('components/footer', ['account' => $account]);
 	}
 
 	public function search($type, $id = '')
