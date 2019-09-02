@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light">
   <a class="navbar-brand" href="<?=base_url()?>">
 	<div class="campus-logo-sm"><img class="w-100" alt="" src="<?=base_url('files/navicon.png')?>"></div>
     UTM

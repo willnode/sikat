@@ -7,9 +7,17 @@
 <div class="box-section">
 	<div class="container-label"><?=lang('departments')?></div>
 	<div class="campus-list">
-		<?php foreach ($departments as $department) : ?>
-		<div class="col-3 p-2">
-			<a href="<?=base_url($department['department_id'])?>">
+		<?php foreach ($departments as $department) : 
+			$id = $department['department_id']
+			?>
+		<div class="col-4 p-2">
+			<div class="campus-logo-md mb-2">
+			<?php if (is_file("./files/logos/$id.png")) : ?>
+				<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
+			<?php endif ?>
+			</div>
+
+			<a href="<?=base_url($id)?>">
 			<?=$department['name']?>
 			</a>
 		</div>

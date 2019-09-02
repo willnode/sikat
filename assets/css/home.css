@@ -112,6 +112,10 @@ p.footer {
 	font-size: 10pt;
 }
 
+.campus-photo img {
+    border-radius: 100%;
+}
+
 .campus-logo {
 	height: 150px;
 	width: 150px;
@@ -137,7 +141,7 @@ p.footer {
 .campus-custom-hero {
 	background: var(--bg) center/cover;
 }
-.campus-custom-hero h1 {
+.campus-custom-hero h1, .campus-custom-hero p {
 	color: white;
 	text-shadow: 0 0 12px black;
 }
@@ -156,4 +160,13 @@ p.footer {
 	text-align: center;
 	border-left: 1px solid gainsboro;
 	border-right: 1px solid gainsboro;
+}
+
+.navbar {
+    position: absolute;
+    background-color: transparent;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    right: 0;
 }

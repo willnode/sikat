@@ -1,13 +1,8 @@
 
-<div class="cv p-2">
-	<div class="d-flex flex-row align-items-center">
-	<div class="campus-photo">Foto</div>
-	<div>
-	<h2><?=$teacher["name"]?></h2>
-	<?=$teacher["teacher_id"]?><br>
-	</div>
-	</div>
-</div>
+<?php $this->load->view('components/campus-profile-hero', [
+	'id' => $teacher["teacher_id"],
+	'name' => $teacher["name"]
+	])?>
 
 
 <div class="box-section p-2">
