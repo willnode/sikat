@@ -7,7 +7,7 @@
   <form class="form-inline">
     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
   </form>
-  <a class="btn btn-outline-success" href="<?=base_url('admin/login')?>">
+  <a class="btn btn-outline-warning" href="<?=base_url('admin/login')?>">
     Login
 </a>
 </nav>

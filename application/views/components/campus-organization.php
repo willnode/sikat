@@ -6,7 +6,7 @@
 			$id = $organization["organization_id"];
 			?>
 		<div class="col-3 p-2">
-		<div class="campus-logo-md mb-2">
+			<div class="campus-logo-md mb-2">
 			<?php if (is_file("./files/logos/$id.png")) : ?>
 				<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
 			<?php endif ?>
