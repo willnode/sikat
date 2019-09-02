@@ -64,44 +64,4 @@ class Main extends CI_Controller {
 
 		$this->load->view('components/footer');
 	}
-	// public function department($id)
-	// {
-	// 	$data = $this->Main_model->getFacultyDatabase($id);
-	// 	$this->load->view('components/header');
-	// 	$this->load->view('home/department', $data);
-	// 	$this->load->view('components/footer');
-	// }
-
-	// public function program($id)
-	// {
-	// 	$data = $this->Main_model->getProgramDatabase($id);
-	// 	$this->load->view('components/header');
-	// 	$this->load->view('home/program', $data);
-	// 	$this->load->view('components/footer');
-	// }
-
-	// public function student($id)
-	// {
-	// 	$data = $this->Main_model->getStudentDatabase($id);
-	// 	$this->load->view('components/header');
-	// 	$this->load->view('home/student', $data);
-	// 	$this->load->view('components/footer');
-	// }
-
-	// public function teacher($id)
-	// {
-	// 	$data = $this->Main_model->getTeacherDatabase($id);
-	// 	$this->load->view('components/header');
-	// 	$this->load->view('home/teacher', $data);
-	// 	$this->load->view('components/footer');
-	// }
-
-
-	// public function organization($id)
-	// {
-	// 	$data = $this->Main_model->getOrganizationDatabase($id);
-	// 	$this->load->view('components/header');
-	// 	$this->load->view('home/organization', $data);
-	// 	$this->load->view('components/footer');
-	// }
 }
