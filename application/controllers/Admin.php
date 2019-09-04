@@ -5,8 +5,8 @@ class Admin extends CI_Controller {
 
 	public function login()
 	{
-		$this->load->view('components/header');
-		$this->load->view('components/footer');
+		$this->load->view('admin/header');
+		$this->load->view('admin/footer');
 	}
 
 }
