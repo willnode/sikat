@@ -5,6 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<meta charset="utf-8">
 	<title>Project SIKAT</title>
+
+	<link rel="stylesheet" href="<?=base_url('assets/vendors/bootstrap/css/bootstrap.min.css')?>">
 	<link rel="stylesheet" href="<?=base_url('assets/css/main.css')?>">
 	<link rel="icon" href="<?=base_url('files/navicon.png')?>">
 </head>
