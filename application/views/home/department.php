@@ -1,14 +1,14 @@
 
 <?php $this->load->view('components/campus-hero', [
-	'id' => $department['department_id'],
-	'name' => $department['name']
+	'id' => $department->department_id,
+	'name' => $department->title
 	])?>
 
 
 <div class="box-section">
 	<div class="container-label"><?=lang('programs')?></div>
 	<div class="campus-list">
-		<?php foreach ($programs as $program) : $id = $program["program_id"]?>
+		<?php foreach ($programs as $program) : $id = $program->program_id?>
 		<?php if (is_file("./files/backgrounds/$id.jpg")) : ?>
 		<div class="col-3 p-2 covered" style="--bg: url(<?=base_url("files/backgrounds/$id.jpg")?>)">
 		<?php else : ?>
@@ -16,7 +16,7 @@
 		<?php endif ?>
 
 			<a href="<?=base_url($id)?>">
-			<?=$program["name"]?></a>
+			<?=$program->title?></a>
 		</div>
 		<?php endforeach ?>
 	</div>
@@ -27,11 +27,11 @@
 	<div class="campus-stat">
 		<div class="text-center">
 			<div class="h2"><?=$stats->teachers?></div>
-			<div><a href="<?=base_url('teachers/'.$department['department_id'])?>"><?=lang('teachers')?></a></div>
+			<div><a href="<?=base_url('teachers/'.$department->department_id)?>"><?=lang('teachers')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->students?></div>
-			<div><a href="<?=base_url('students/'.$department['department_id'])?>"><?=lang('students')?></a></div>
+			<div><a href="<?=base_url('students/'.$department->department_id)?>"><?=lang('students')?></a></div>
 		</div>
 		<div class="text-center">
 			<div class="h2"><?=$stats->alumni?></div>
@@ -47,3 +47,5 @@
 <?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 
 <?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>
+
+<?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>

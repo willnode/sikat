@@ -54,6 +54,7 @@ $route['teachers/(:any)'] = 'main/search/teacher/$1';
 $route['students/(:any)'] = 'main/search/student/$1';
 $route['programs/(:any)'] = 'main/search/programs/$1';
 $route['organizations/(:any)'] = 'main/search/organization/$1';
+$route['fetch_rss/(:any)'] = 'main/fetch_rss/$1';
 $route['login'] = 'main/login';
 $route['logout'] = 'main/logout';
 $route['switch_lang/(:any)'] = 'main/switch_lang/$1';

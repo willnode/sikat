@@ -1,7 +1,7 @@
 
 <?php $this->load->view('components/campus-hero', [
-	'id' => $organization['organization_id'],
-	'name' => $organization['name']
+	'id' => $organization->organization_id,
+	'name' => $organization->title
 	])?>
 
 
@@ -28,3 +28,6 @@
 <div class="box-section">
 	<div class="container-label"><?=lang('events')?></div>
 </div>
+
+
+<?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>

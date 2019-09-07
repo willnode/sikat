@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `accounts` (
-  `user_id` varchar(255) NOT NULL,
+  `account_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `type` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -86,10 +86,10 @@ CREATE TABLE `localization__campus` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localization__departments`
+-- Table structure for table `account_localizations`
 --
 
-CREATE TABLE `localization__departments` (
+CREATE TABLE `account_localizations` (
   `department_id` varchar(255) NOT NULL,
   `lang` varchar(5) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -125,10 +125,10 @@ CREATE TABLE `localization__organizations` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `localization__programs`
+-- Table structure for table `account_localizations`
 --
 
-CREATE TABLE `localization__programs` (
+CREATE TABLE `account_localizations` (
   `program_id` varchar(255) NOT NULL,
   `lang` varchar(5) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -280,7 +280,7 @@ CREATE TABLE `teacher_journals` (
 -- Indexes for table `accounts`
 --
 ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`account_id`);
 
 --
 -- Indexes for table `campus`
@@ -301,9 +301,9 @@ ALTER TABLE `localization__campus`
   ADD PRIMARY KEY (`campus_id`,`lang`) USING BTREE;
 
 --
--- Indexes for table `localization__departments`
+-- Indexes for table `account_localizations`
 --
-ALTER TABLE `localization__departments`
+ALTER TABLE `account_localizations`
   ADD PRIMARY KEY (`department_id`,`lang`);
 
 --
@@ -319,9 +319,9 @@ ALTER TABLE `localization__organizations`
   ADD PRIMARY KEY (`organization_id`,`lang`);
 
 --
--- Indexes for table `localization__programs`
+-- Indexes for table `account_localizations`
 --
-ALTER TABLE `localization__programs`
+ALTER TABLE `account_localizations`
   ADD PRIMARY KEY (`program_id`,`lang`);
 
 --

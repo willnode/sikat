@@ -4,12 +4,12 @@
 			<h4>Direktori</h4>
 			<ul>
 				<li><a href="<?=base_url('')?>">Kampus</a></li>
-				<li><a href="<?=base_url('departmens/'.$account['user_id'])?>">Fakultas</a></li>
-				<li><a href="<?=base_url('programs/'.$account['user_id'])?>">Program Studi</a></li>
-				<li><a href="<?=base_url('teachers/'.$account['user_id'])?>">Dosen</a></li>
-				<li><a href="<?=base_url('students/'.$account['user_id'])?>">Mahasiswa</a></li>
-				<li><a href="<?=base_url('alumni/'.$account['user_id'])?>">Alumni</a></li>
-				<li><a href="<?=base_url('organizations/'.$account['user_id'])?>">Organisasi</a></li>
+				<li><a href="<?=base_url('departmens/'.$account->account_id)?>">Fakultas</a></li>
+				<li><a href="<?=base_url('programs/'.$account->account_id)?>">Program Studi</a></li>
+				<li><a href="<?=base_url('teachers/'.$account->account_id)?>">Dosen</a></li>
+				<li><a href="<?=base_url('students/'.$account->account_id)?>">Mahasiswa</a></li>
+				<li><a href="<?=base_url('alumni/'.$account->account_id)?>">Alumni</a></li>
+				<li><a href="<?=base_url('organizations/'.$account->account_id)?>">Organisasi</a></li>
 			</ul>
 		</div>
 		<div class="col-md-6">
@@ -22,12 +22,14 @@
 				<li><a href="https://www.facebook.com/universitastrunojoyomadura/">Facebook</a></li>
 				<li><a href="https://www.instagram.com/universitas_trunojoyo_madura/">Instagram</a></li>
 				<li><a href="https://www.youtube.com/channel/UCtZTZqwWFrzcnL1fHzfSLDw">Youtube</a></li>
-			</ul>			
+			</ul>
 		</div>
 	</div>
-	<div class="text-center">
-		Sampel Website (c) SIKAT 2019.<br>
-		Data Kampus Hak Milik Universitas Trunjoyo Madura.
+	<div class="text-center text-muted">
+		<small>
+		Website SIKAT &copy; SATA Corp 2019.<br>
+		Data Kampus Tetap Menjadi Hak Milik Universitas Trunojoyo Madura.
+		</small>
 	</div>
 </div>
 </body>

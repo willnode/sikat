@@ -11,7 +11,7 @@
 <div class="box-section">
 	<div class="campus-list">
 		<?php foreach ($organizations as $organization) :
-			$id = $organization["organization_id"];
+			$id = $organization->organization_id;
 			?>
 		<div class="col-3 p-2">
 		<div class="campus-logo-md mb-2">
@@ -20,7 +20,7 @@
 		<?php endif ?>
 		</div>
 		<a href="<?=base_url($id)?>">
-			<?=$organization["slug"]?>
+			<?=$organization->slug?>
 		</a>
 		</div>
 		<?php endforeach ?>

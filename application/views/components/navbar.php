@@ -5,12 +5,14 @@
   </a>
   <div class="flex-grow-1"></div>
   <form class="form-inline">
-    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <input class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search">
   </form>
-  <select class="form-inline" onchange="javascript:window.location.href='<?php echo base_url(); ?>switch_lang/'+this.value;">
-    <option value="english" <?php if($this->session->userdata('site_lang') == 'english') echo 'selected'; ?>>English</option>
-    <option value="indonesian" <?php if($this->session->userdata('site_lang') == 'indonesian') echo 'selected'; ?>>Indonesia</option>
-  </select>
+  <form class="form-inline  mr-sm-2">
+    <select class="form-control form-control-sm" onchange="javascript:window.location.href='<?php echo base_url(); ?>switch_lang/'+this.value;">
+      <option value="english" <?php if($this->session->userdata('site_lang') == 'english') echo 'selected'; ?>>English</option>
+      <option value="indonesian" <?php if($this->session->userdata('site_lang') == 'indonesian') echo 'selected'; ?>>Indonesia</option>
+    </select>
+  </form>
   <?php $logid = $this->Login_model->get_current_login();
   if (empty($logid)) : ?>
     <a class="btn btn-sm btn-outline-success" href="<?=base_url('login')?>">Login</a>

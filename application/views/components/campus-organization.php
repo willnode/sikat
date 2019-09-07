@@ -3,7 +3,7 @@
 	<div class="container-label"><?=lang('organizations')?></div>
 	<div class="campus-list">
 		<?php foreach ($organizations as $organization) :
-			$id = $organization["organization_id"];
+			$id = $organization->organization_id;
 			?>
 		<div class="col-3 p-2">
 			<div class="campus-logo-md mb-2">
@@ -15,7 +15,7 @@
 			<a href="<?=base_url($id)?>">
 
 
-			<?=$organization["slug"]?></a>
+			<?=$organization->slug?></a>
 		</div>
 		<?php endforeach ?>
 	</div>
