@@ -16,7 +16,7 @@ class Main extends CI_Controller {
 	public function index($id = '')
 	{
 		$account = $this->Main_model->getAccountInfo($id);
-		$this->load->view('components/header');
+		$this->load->view('components/header', ['float' => 1]);
 		switch ($account->type) {
 			case 'c':
 				$data = $this->Main_model->getCampusDatabase($account->account_id);

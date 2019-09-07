@@ -13,7 +13,7 @@
 	</div>
 </div>
 
-
+<div class="container">
 <div class="box-section p-2">
 	Jenjang <?=lang($student->program_type)?><br>
 	Prodi <a href="<?=base_url($student->program_id)?>"><?=$student->program_title?></a><br>
@@ -24,3 +24,4 @@
 
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+</div>

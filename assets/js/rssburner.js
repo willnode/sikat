@@ -18,9 +18,9 @@ const extractRSSFeed = (text) => {
 	const date = new Date(pubDate);
 
     return `
-      <div class="col-lg-3 col-sm-4 col-6">
-        <a href="${link}">${title}</a>
-          <small>
+      <div class="list-group-item list-group-item-action">
+        <a href="${link}" class="title">${title}</a>
+          <small class="datestamp">
             ${date.toLocaleDateString()}
           </small>
       </div>`;

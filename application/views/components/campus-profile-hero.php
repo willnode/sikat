@@ -4,11 +4,11 @@ if (is_file("./files/backgrounds/$domain_name.jpg")) : ?>
 <?php else : ?>
 <div class="campus-hero">
 <?php endif ?>
-	<div class="campus-photo">
 	<?php if (is_file("./files/profiles/$id.jpg")) : ?>
+	<div class="campus-photo">
 		<img class="w-100" alt="Logo" src="<?=base_url("files/profiles/$id.jpg")?>">
-	<?php endif ?>
 	</div>
+	<?php endif ?>
 	<h1><?=$name?></h1>
 	<p><?=$id?></p>
 </div>

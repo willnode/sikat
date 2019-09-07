@@ -4,6 +4,7 @@
 	'name' => $teacher->name
 	])?>
 
+<div class="container">
 
 <div class="box-section p-2">
 	Dosen <a href="<?=base_url($teacher->program_id)?>"><?=$teacher->program_title?></a>, <a href="<?=base_url($teacher->department_id)?>"><?=$teacher->department_title?></a><br>
@@ -13,3 +14,4 @@
 
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+</div>

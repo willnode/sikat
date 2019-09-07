@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light">
+<nav class="navbar navbar-light <?=isset($float) ? 'float' : ''?>">
   <a class="navbar-brand" href="<?=base_url()?>">
 	<div class="campus-logo-sm mr-2"><img class="w-100" alt="" src="<?=base_url('files/navicon.png')?>"></div>
     UTM
@@ -15,10 +15,10 @@
   </form>
   <?php $logid = $this->Login_model->get_current_login();
   if (empty($logid)) : ?>
-    <a class="btn btn-sm btn-outline-success" href="<?=base_url('login')?>">Login</a>
+    <a class="btn btn-sm btn-warning" href="<?=base_url('login')?>"><i class="fa fa-key mr-2"></i>Login</a>
   <?php else : ?>
   <small><?=$logid?></small>
-    <a class="btn btn-sm btn-outline-warning" href="<?=base_url('panel/dashboard')?>">Dashboard</a>
-    <a class="btn btn-sm btn-outline-warning" href="<?=base_url('logout')?>">Logout</a>
+    <a class="btn btn-sm btn-warning" href="<?=base_url('panel/dashboard')?>">Dashboard</a>
+    <a class="btn btn-sm btn-warning" href="<?=base_url('logout')?>">Logout</a>
   <?php endif ?>
 </nav>

@@ -4,7 +4,7 @@
 	'name' => $department->title
 	])?>
 
-
+<div class="container">
 <div class="box-section">
 	<div class="container-label"><?=lang('programs')?></div>
 	<div class="campus-list">
@@ -49,3 +49,4 @@
 <?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+</div>

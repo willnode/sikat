@@ -8,5 +8,18 @@
 		<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
 	<?php endif ?>
 	</div>
-	<h1><?=$name?></h1>
+	<h1 class="pb-3"><?=$name?></h1>
+	<?php if (isset($slug)): ?>
+	<small class="text-muted"><?=$slug?></small>
+	<?php endif ?>
+	<?php if (isset($weblinks)) : ?>
+	<div class="row justify-content-center">
+	<?php foreach ($weblinks as $link) : ?>
+
+		<a class="btn text-light" href="<?=$link->link?>" title="<?=$link->title?>">
+			<i class="<?=$link->icon?> h4"></i>
+		</a>
+	<?php endforeach ?>
+	</div>
+	<?php endif ?>
 </div>

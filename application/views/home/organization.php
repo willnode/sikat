@@ -1,10 +1,11 @@
 
 <?php $this->load->view('components/campus-hero', [
 	'id' => $organization->organization_id,
-	'name' => $organization->title
+	'name' => $organization->title,
+	'slug' => $organization->slug
 	])?>
 
-
+<div class="container">
 <div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="campus-stat">
@@ -31,3 +32,4 @@
 
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+</div>

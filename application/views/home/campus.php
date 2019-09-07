@@ -1,9 +1,11 @@
 
 <?php $this->load->view('components/campus-hero', [
 	'id' => $campus->campus_id,
-	'name' => $campus->title
+	'name' => $campus->title,
+	'weblinks' => $weblinks
 	])?>
 
+<div class="container">
 <div class="box-section">
 	<div class="container-label"><?=lang('departments')?></div>
 	<div class="campus-list">
@@ -64,3 +66,5 @@
 <?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+
+</div>

@@ -4,7 +4,7 @@
 	'name' => $program->title
 	])?>
 
-
+<div class="container">
 <div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="text-center col-md-6 m-auto">
@@ -36,3 +36,4 @@
 <?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>
 
 <?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+</div>

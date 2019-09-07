@@ -43,13 +43,20 @@ class Main_model extends CI_Model {
 		"structure_localizations.member_id = structures.member_id AND ".
 		"structure_localizations.lang = '$this->lang'"
 		, 'left outer');
-		$this->db->where(['structures.structure_id' => $id]);
+		$this->db->where(['structures.structure_id' => $id, 'category' => 0]);
+		$this->db->order_by('ordering');
 		return $this->db->get('structures');
 	}
 
 	function dbGetFeedData($id)
 	{
 		return $this->db->get_where('account_feeds', ['account_id' => $id, 'lang' => $this->lang], 1)->row();
+	}
+
+	function dbGetWeblinkData($id)
+	{
+		$this->db->join('weblinks', 'weblinks.weblink = web_type');
+		return $this->db->get_where('account_weblinks', ['account_id' => $id])->result();
 	}
 
 	function getCampusDatabase($id){
@@ -67,6 +74,7 @@ class Main_model extends CI_Model {
 		],
 		'structure' => $this->dbGetStructureData($id)->result(),
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id), 
 		];
 	}
 
