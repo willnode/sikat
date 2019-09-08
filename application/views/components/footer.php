@@ -4,7 +4,8 @@
 			<h4>Direktori</h4>
 			<ul>
 				<li><a href="<?=base_url('')?>">Kampus</a></li>
-				<li><a href="<?=base_url('departments/')?>">Fakultas</a></li>
+				<li><a href="<?=base_url('faculties/')?>">Fakultas</a></li>
+				<li><a href="<?=base_url('departments/')?>">Jurusan</a></li>
 				<li><a href="<?=base_url('programs/')?>">Program Studi</a></li>
 				<li><a href="<?=base_url('teachers/')?>">Dosen</a></li>
 				<li><a href="<?=base_url('students/')?>">Mahasiswa</a></li>

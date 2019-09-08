@@ -1,24 +1,24 @@
 
 <?php $this->load->view('components/campus-hero', [
-	'id' => $department->department_id,
-	'name' => $department->title
+	'id' => $faculty->faculty_id,
+	'name' => $faculty->title
 	])?>
 
 <div class="container">
 <div class="box-section">
-	<div class="container-label"><?=lang('programs')?></div>
+	<div class="container-label"><?=lang('departments')?></div>
 	<div class="campus-list">
-		<?php foreach ($programs as $program) : $id = $program->program_id?>
+		<?php foreach ($departments as $department) : $id = $department->department_id?>
 		<div class="col-3 p-2">
-
 			<a href="<?=base_url($id)?>">
-			<?=$program->title?></a>
+			<?=$department->title?></a>
 		</div>
 		<?php endforeach ?>
 	</div>
 </div>
 
-<?php $this->load->view('components/campus-stats', [ 'id' => $department->department_id, 'stats' => $stats]); ?>
+
+<?php $this->load->view('components/campus-stats', [ 'id' => $faculty->faculty_id, 'stats' => $stats]); ?>
 
 <?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
 

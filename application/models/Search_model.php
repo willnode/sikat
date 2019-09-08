@@ -12,11 +12,11 @@ class Search_model extends CI_Model {
   function getTeacherList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
-		case 'd':
+		case 'department':
 			$this->db->join('programs', 'programs.program_id = teachers.program_id');
 			$this->db->where(['department_id' => $scope]);
 			break;
-		case 'p':
+		case 'program':
 			$this->db->where(['program_id' => $scope]);
 			break;
 	}
@@ -38,14 +38,14 @@ class Search_model extends CI_Model {
   function getStudentList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
-		case 'd':
+		case 'department':
 			$this->db->join('programs', 'programs.program_id = students.program_id');
 			$this->db->where(['department_id' => $scope]);
 			break;
-		case 'p':
+		case 'program':
 			$this->db->where(['program_id' => $scope]);
 			break;
-		case 'c':
+		case 'campus':
 		default:
 			# code...
 			break;
@@ -68,14 +68,14 @@ class Search_model extends CI_Model {
   function getAlumniList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
-		case 'd':
+		case 'department':
 			$this->db->join('programs', 'programs.program_id = students.program_id');
 			$this->db->where(['department_id' => $scope]);
 			break;
-		case 'p':
+		case 'program':
 			$this->db->where(['program_id' => $scope]);
 			break;
-		case 'c':
+		case 'campus':
 		default:
 			# code...
 			break;
@@ -95,15 +95,19 @@ class Search_model extends CI_Model {
 	];
   }
 
-
   function getOrganizationList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
-		case 'd':
+		case 'faculty':
+			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
+			$this->db->join('deparments', 'deparments.department_id = programs.department_id');
+			$this->db->where(['department_id' => $scope]);
+			break;
+		case 'department':
 			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
 			$this->db->where(['department_id' => $scope]);
 			break;
-		case 'p':
+		case 'program':
 			$this->db->where(['organization_parent' => $scope]);
 			break;
 	}
@@ -121,15 +125,33 @@ class Search_model extends CI_Model {
   }
 
 
+  function getFacultyList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+
+	$this->db->join("account_localizations",
+		"account_localizations.account_id = faculties.faculty_id".
+		" AND account_localizations.lang = '$this->lang'", 'left outer');
+
+	if ($query)	$this->db->like('title', $query, 'both');
+
+	$count = $this->db->count_all_results('faculties', FALSE);
+
+	return (object)[
+		'faculties' =>  $this->db->get('', $limit, $offset)->result(),
+		'count' => $count,
+		'pagination' => $limit,
+		'scope' => $scope
+	];
+  }
+
   function getDepartmentList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	$this->db->join("account_localizations",
 		"account_localizations.account_id = departments.department_id".
 		" AND account_localizations.lang = '$this->lang'", 'left outer');
 
-	$count = $this->db->count_all_results('departments', FALSE);
-
 	if ($query)	$this->db->like('title', $query, 'both');
+
+	$count = $this->db->count_all_results('departments', FALSE);
 
 	return (object)[
 		'departments' =>  $this->db->get('', $limit, $offset)->result(),
@@ -142,7 +164,11 @@ class Search_model extends CI_Model {
   function getProgramList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
-		case 'd':
+		case 'faculty':
+			$this->db->join('deparments', 'deparments.department_id = programs.department_id');
+			$this->db->where(['faculty_id' => $scope]);
+			break;
+		case 'department':
 			$this->db->where(['department_id' => $scope]);
 			break;
 	}

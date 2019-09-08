@@ -54,19 +54,20 @@ class Main_model extends CI_Model {
 
 	function dbGetWeblinkData($id)
 	{
-		$this->db->join('weblinks', 'weblinks.weblink = web_type');
+		$this->db->join('op_weblinks', 'op_weblinks.weblink = web_type');
 		return $this->db->get_where('account_weblinks', ['account_id' => $id])->result();
 	}
 
 	function getCampusDatabase($id){
 	return (object)[
 		'campus' => $this->dbGetLocalized('campus', 'campus_id', ['campus.campus_id' => $id])->row(),
-		'departments' => $this->dbGetLocalized('departments', 'department_id')->result(),
+		'faculties' => $this->dbGetLocalized('faculties', 'faculty_id')->result(),
 		'organizations' => $this->dbGetLocalized('organizations', 'organization_id', ['organization_parent' => $id])->result(),
 		'stats' => (object)[
-			'students' => $this->db->count_all_results("students"),
-			'alumni' => 0,//$this->db->count_all_results("student_alumni"),
+			'students' => $this->db->where('status', 'active')->count_all_results("students"),
+			'alumni' => $this->db->where('status', 'alumni')->count_all_results("students"),
 			'teachers' => $this->db->count_all_results("teachers"),
+			'faculties' => $this->db->count_all_results("faculties"),
 			'departments' => $this->db->count_all_results("departments"),
 			'programs' => $this->db->count_all_results("programs"),
 			'organizations' => $this->db->count_all_results("organizations")
@@ -77,6 +78,30 @@ class Main_model extends CI_Model {
 		];
 	}
 
+	function getFacultyDatabase($id){
+		return (object)[
+			'faculty' => $this->dbGetLocalized('faculties', 'faculty_id', ['faculties.faculty_id' => $id])->row(),
+			'departments' => $this->dbGetLocalized('departments', 'department_id', ['faculty_id' => $id])->result(),
+			'organizations' => $this->dbGetLocalized('organizations', 'organization_id', ['organization_parent' => $id])->result(),
+			'stats' => (object)[
+				'departments' => $this->db->where( ["faculty_id" => $id])->count_all_results("departments"),
+				'programs' => $this->db->join('departments', 'departments.department_id = programs.department_id')
+							->where( ["faculty_id" => $id])->count_all_results("programs"),
+				'students' => $this->db->join('programs', 'programs.program_id = students.program_id')
+							->join('departments', 'departments.department_id = programs.department_id')
+							->where( ["faculty_id" => $id, "status" => 'active'])->count_all_results("students"),
+				'alumni' => $this->db->join('programs', 'programs.program_id = students.program_id')
+							->join('departments', 'departments.department_id = programs.department_id')
+							->where( ["faculty_id" => $id, "status" => 'alumni'])->count_all_results("students"),
+				'teachers' => $this->db->join('programs', 'programs.program_id = teachers.program_id')
+							->join('departments', 'departments.department_id = programs.department_id')
+							->where( ["faculty_id" => $id])->count_all_results("teachers")
+			],
+			'structure' => $this->dbGetStructureData($id)->result(),
+			'feed' => $this->dbGetFeedData($id),
+		];
+	  }
+
   function getDepartmentDatabase($id){
 	return (object)[
 		'department' => $this->dbGetLocalized('departments', 'department_id', ['departments.department_id' => $id])->row(),
@@ -85,12 +110,9 @@ class Main_model extends CI_Model {
 		'stats' => (object)[
 			'programs' => $this->db->where( ["department_id" => $id])->count_all_results("programs"),
 			'students' => $this->db->join('programs', 'programs.program_id = students.program_id')
-						->where( ["department_id" => $id])->count_all_results("students"),
-			'alumni' => 0,
-			// $this->db
-			// 			->join('students', 'student_alumni.student_id = students.student_id')
-			// 			->join('programs', 'programs.program_id = students.program_id')
-			// 			->where( ["department_id" => $id])->count_all_results("student_alumni"),
+						->where( ["department_id" => $id, 'status' => 'active'])->count_all_results("students"),
+			'alumni' => $this->db->join('programs', 'programs.program_id = students.program_id')
+			->where( ["department_id" => $id, 'status' => 'alumni'])->count_all_results("students"),
 			'teachers' => $this->db->join('programs', 'programs.program_id = teachers.program_id')
 						->where( ["department_id" => $id])->count_all_results("teachers")
 		],

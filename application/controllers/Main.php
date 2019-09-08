@@ -10,34 +10,38 @@ class Main extends CI_Controller {
 
 	public function index($id = '')
 	{
-		if (in_array($id, ['students', 'teachers', 'organizations', 'programs', 'departments', 'alumni'])) {
+		if (in_array($id, ['students', 'teachers', 'organizations', 'programs', 'departments', 'faculties', 'alumni'])) {
 			return $this->search($id, '');
 		}
 		$id = $id ?: $this->db->select('campus_id')->get('campus')->row()->campus_id;
 		$account = $this->Main_model->getAccountInfo($id);
 		$this->load->view('components/header', ['float' => 1]);
 		switch ($account->type) {
-			case 'c':
+			case 'campus':
 				$data = $this->Main_model->getCampusDatabase($account->account_id);
 				$this->load->view('home/campus', $data);
 				break;
-			case 'd':
+			case 'faculty':
+				$data = $this->Main_model->getFacultyDatabase($id);
+				$this->load->view('home/faculty', $data);
+				break;
+			case 'department':
 				$data = $this->Main_model->getDepartmentDatabase($id);
 				$this->load->view('home/department', $data);
 				break;
-			case 'p':
+			case 'program':
 				$data = $this->Main_model->getProgramDatabase($id);
 				$this->load->view('home/program', $data);
 				break;
-			case 's':
+			case 'student':
 				$data = $this->Main_model->getStudentDatabase($id);
 				$this->load->view('home/student', $data);
 				break;
-			case 't':
+			case 'teacher':
 				$data = $this->Main_model->getTeacherDatabase($id);
 				$this->load->view('home/teacher', $data);
 				break;
-			case 'o':
+			case 'organization':
 				$data = $this->Main_model->getOrganizationDatabase($id);
 				$this->load->view('home/organization', $data);
 				break;
@@ -63,6 +67,7 @@ class Main extends CI_Controller {
 			'organizations' => 'getOrganizationList',
 			'programs' => 'getProgramList',
 			'departments' => 'getDepartmentList',
+			'faculties' => 'getFacultyList',
 		][$type];
 		$data = $this->Search_model->$query($id, $account->type, $this->input->get('q'), ($page - 1) * $page_count, $page_count);
 		$this->load->view('search/'.$type, $data);
