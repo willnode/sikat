@@ -4,12 +4,12 @@
 			<h4>Direktori</h4>
 			<ul>
 				<li><a href="<?=base_url('')?>">Kampus</a></li>
-				<li><a href="<?=base_url('departmens/'.$account->account_id)?>">Fakultas</a></li>
-				<li><a href="<?=base_url('programs/'.$account->account_id)?>">Program Studi</a></li>
-				<li><a href="<?=base_url('teachers/'.$account->account_id)?>">Dosen</a></li>
-				<li><a href="<?=base_url('students/'.$account->account_id)?>">Mahasiswa</a></li>
-				<li><a href="<?=base_url('alumni/'.$account->account_id)?>">Alumni</a></li>
-				<li><a href="<?=base_url('organizations/'.$account->account_id)?>">Organisasi</a></li>
+				<li><a href="<?=base_url('departments/')?>">Fakultas</a></li>
+				<li><a href="<?=base_url('programs/')?>">Program Studi</a></li>
+				<li><a href="<?=base_url('teachers/')?>">Dosen</a></li>
+				<li><a href="<?=base_url('students/')?>">Mahasiswa</a></li>
+				<li><a href="<?=base_url('alumni/')?>">Alumni</a></li>
+				<li><a href="<?=base_url('organizations/')?>">Organisasi</a></li>
 			</ul>
 		</div>
 		<div class="col-md-6">

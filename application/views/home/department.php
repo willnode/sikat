@@ -9,11 +9,7 @@
 	<div class="container-label"><?=lang('programs')?></div>
 	<div class="campus-list">
 		<?php foreach ($programs as $program) : $id = $program->program_id?>
-		<?php if (is_file("./files/backgrounds/$id.jpg")) : ?>
-		<div class="col-3 p-2 covered" style="--bg: url(<?=base_url("files/backgrounds/$id.jpg")?>)">
-		<?php else : ?>
 		<div class="col-3 p-2">
-		<?php endif ?>
 
 			<a href="<?=base_url($id)?>">
 			<?=$program->title?></a>

@@ -1,11 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-function utf8_encode_callback($m)
-{
-    return utf8_encode($m[0]);
-}
-
 class Main extends CI_Controller {
 
 	public function __construct()
@@ -15,6 +10,10 @@ class Main extends CI_Controller {
 
 	public function index($id = '')
 	{
+		if (in_array($id, ['students', 'teachers', 'organizations', 'programs', 'departments', 'alumni'])) {
+			return $this->search($id, '');
+		}
+		$id = $id ?: $this->db->select('campus_id')->get('campus')->row()->campus_id;
 		$account = $this->Main_model->getAccountInfo($id);
 		$this->load->view('components/header', ['float' => 1]);
 		switch ($account->type) {
@@ -52,24 +51,20 @@ class Main extends CI_Controller {
 	public function search($type, $id = '')
 	{
 		$page_count = 40;
-		$page = $this->input->get('page') ?: 1;
+		$page = min(10, $this->input->get('page') ?: 1);
 		$this->load->view('components/header');
 
+		$id = $id ?: $this->db->get('campus')->row()->campus_id;
 		$account = $this->Main_model->getAccountInfo($id);
-		$data = NULL;
-		switch ($type) {
-			case 'student':
-			$data = $this->Main_model->getStudentList($id, $account->type, ($page - 1) * $page_count, $page_count);
-			break;
-			case 'teacher':
-			$data = $this->Main_model->getTeacherList($id, $account->type, ($page - 1) * $page_count, $page_count);
-			break;
-			case 'organization':
-			$data = $this->Main_model->getOrganizationList($id, $account->type, ($page - 1) * $page_count, $page_count);
-			break;
-			default:
-			return;
-		}
+		$query = [
+			'students' => 'getStudentList',
+			'alumni' => 'getAlumniList',
+			'teachers' => 'getTeacherList',
+			'organizations' => 'getOrganizationList',
+			'programs' => 'getProgramList',
+			'departments' => 'getDepartmentList',
+		][$type];
+		$data = $this->Search_model->$query($id, $account->type, $this->input->get('q'), ($page - 1) * $page_count, $page_count);
 		$this->load->view('search/'.$type, $data);
 
 		$this->load->view('components/footer', ['account' => $account]);

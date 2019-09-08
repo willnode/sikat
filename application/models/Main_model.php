@@ -11,7 +11,6 @@ class Main_model extends CI_Model {
 
 	function getAccountInfo($id)
 	{
-		$id = $id ?: $this->db->get('campus')->row()->campus_id;
 		$data = $this->db->get_where('accounts', ['account_id' => $id]);
 		if ($data->num_rows() == 0) show_404();
 		return $data->row();
@@ -74,7 +73,7 @@ class Main_model extends CI_Model {
 		],
 		'structure' => $this->dbGetStructureData($id)->result(),
 		'feed' => $this->dbGetFeedData($id),
-		'weblinks' => $this->dbGetWeblinkData($id), 
+		'weblinks' => $this->dbGetWeblinkData($id),
 		];
 	}
 
@@ -172,76 +171,4 @@ class Main_model extends CI_Model {
 	];
   }
 
-  function getTeacherList($scope, $scope_type, $offset = 0, $limit = 0) {
-
-	switch ($scope_type) {
-		case 'd':
-			$this->db->join('programs', 'programs.program_id = teachers.program_id');
-			$this->db->where(['department_id' => $scope]);
-			break;
-		case 'p':
-			$this->db->where(['program_id' => $scope]);
-			break;
-	}
-
-	$count = $this->db->count_all_results('teachers', FALSE);
-
-	return (object)[
-		'teachers' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
-
-  }
-
-
-  function getStudentList($scope, $scope_type, $offset = 0, $limit = 0) {
-
-	switch ($scope_type) {
-		case 'd':
-			$this->db->join('programs', 'programs.program_id = students.program_id');
-			$this->db->where(['department_id' => $scope]);
-			break;
-		case 'p':
-			$this->db->where(['program_id' => $scope]);
-			break;
-		case 'c':
-		default:
-			# code...
-			break;
-	}
-
-	$count = $this->db->count_all_results('students', FALSE);
-
-	return (object)[
-		'students' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
-  }
-
-
-  function getOrganizationList($scope, $scope_type, $offset = 0, $limit = 0) {
-
-	switch ($scope_type) {
-		case 'd':
-			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
-			$this->db->where(['department_id' => $scope]);
-			break;
-		case 'p':
-			$this->db->where(['organization_parent' => $scope]);
-			break;
-	}
-
-	$count = $this->db->count_all_results('organizations', FALSE);
-
-	return (object)[
-		'organizations' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
-  }
 }

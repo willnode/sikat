@@ -50,10 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'main';
-$route['teachers/(:any)'] = 'main/search/teacher/$1';
-$route['students/(:any)'] = 'main/search/student/$1';
+$route['teachers/(:any)'] = 'main/search/teachers/$1';
+$route['students/(:any)'] = 'main/search/students/$1';
 $route['programs/(:any)'] = 'main/search/programs/$1';
-$route['organizations/(:any)'] = 'main/search/organization/$1';
+$route['organizations/(:any)'] = 'main/search/organizations/$1';
+$route['departments/(:any)'] = 'main/search/departments/$1';
 $route['fetch_rss/(:any)'] = 'main/fetch_rss/$1';
 $route['login'] = 'main/login';
 $route['logout'] = 'main/logout';

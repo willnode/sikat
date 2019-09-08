@@ -18,6 +18,9 @@ class Admin extends CI_Controller {
 
 	public function _remap($page)
 	{
+		if (!$this->Login_model->is_logged_in())
+			redirect('login');
+
 		$data = [
 			"login" => $this->Login_model->get_current_login_detail()
 		];

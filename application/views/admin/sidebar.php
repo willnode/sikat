@@ -19,6 +19,7 @@
 				<a class="nav-link" href="content">
 					<i class="nav-icon icon-drop"></i> Konten</a>
 			</li>
+			<?php if (!$login->is_member) : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="structure">
 					<i class="nav-icon icon-pencil"></i> Struktur</a>
@@ -40,19 +41,27 @@
 				<a class="nav-link" href="website">
 					<i class="nav-icon icon-drop"></i> Website</a>
 			</li>
+			<?php endif ?>
+			<?php if (!$login->is_member) : ?>
 			<li class="nav-title">Database</li>
 			<li class="nav-item">
 				<a class="nav-link" href="statistics">
 					<i class="nav-icon icon-pencil"></i> Statistik</a>
 			</li>
+			<?php endif ?>
+			<?php if ($login->type == 'c') : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="department">
 					<i class="nav-icon icon-pencil"></i> Fakultas</a>
 			</li>
+			<?php endif ?>
+			<?php if ($login->type == 'c' || $login->type == 'd') : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="program">
 					<i class="nav-icon icon-pencil"></i> Prodi</a>
 			</li>
+			<?php endif ?>
+			<?php if ($login->type == 'c' || $login->type == 'd' || $login->type == 'p') : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="student">
 					<i class="nav-icon icon-pencil"></i> Mahasiswa</a>
@@ -65,7 +74,7 @@
 				<a class="nav-link" href="organization">
 					<i class="nav-icon icon-pencil"></i> Organisasi</a>
 			</li>
-
+			<?php endif ?>
 		</ul>
 	</nav>
 	<button class="sidebar-minimizer brand-minimizer" type="button"></button>
