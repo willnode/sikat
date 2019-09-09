@@ -18,11 +18,11 @@
 </div>
 
 
-<?php $this->load->view('components/campus-stats', [ 'id' => $faculty->faculty_id, 'stats' => $stats]); ?>
+<?php $this->load->view('components/campus-stats'); ?>
 
-<?php $this->load->view('components/campus-structure', ['structure' => $structure]); ?>
+<?php $this->load->view('components/campus-structure'); ?>
 
-<?php $this->load->view('components/campus-organization', ['organizations' => $organizations]); ?>
+<?php $this->load->view('components/campus-organization'); ?>
 
-<?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+<?php $this->load->view('components/campus-feed'); ?>
 </div>

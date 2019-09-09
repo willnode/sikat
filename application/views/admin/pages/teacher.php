@@ -1,5 +1,7 @@
 <?php
 
-if ($login->type == 'c' || $login->type == 'd' || $login->type == 'p') {
-	# Manajemen akun teacher
+if (!$login->is_member) {
+
+	$this->load->view('admin/listing', ['items' => $list->teachers, 'item_id' => 'teacher_id', 'item_title' => 'name']);
+
 }

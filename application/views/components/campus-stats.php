@@ -1,4 +1,4 @@
-
+<?php if (!empty($stats)) : ?>
 <div class="box-section">
 <div class="campus-stat">
 	<?php foreach ($stats as $key => $value) : if (!empty($value)) ?>
@@ -12,3 +12,4 @@
 	<?php endforeach ?>
 </div>
 </div>
+<?php endif ?>

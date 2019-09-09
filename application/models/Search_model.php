@@ -12,6 +12,11 @@ class Search_model extends CI_Model {
   function getTeacherList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
 
 	switch ($scope_type) {
+		case 'faculty':
+			$this->db->join('programs', 'programs.program_id = teachers.program_id');
+			$this->db->join('departments', 'departments.department_id = programs.department_id');
+			$this->db->where(['faculty_id' => $scope]);
+			break;
 		case 'department':
 			$this->db->join('programs', 'programs.program_id = teachers.program_id');
 			$this->db->where(['department_id' => $scope]);
@@ -45,13 +50,12 @@ class Search_model extends CI_Model {
 		case 'program':
 			$this->db->where(['program_id' => $scope]);
 			break;
-		case 'campus':
 		default:
 			# code...
 			break;
 	}
 
-	$this->db->where(['status' => 'y']);
+	$this->db->where(['status' => 'active']);
 
 	if ($query)	$this->db->like('name', $query, 'both');
 
@@ -83,7 +87,7 @@ class Search_model extends CI_Model {
 
 	if ($query)	$this->db->like('name', $query, 'both');
 
-	$this->db->where(['status' => 'a']);
+	$this->db->where(['status' => 'alumni']);
 
 	$count = $this->db->count_all_results('students', FALSE);
 
@@ -100,7 +104,7 @@ class Search_model extends CI_Model {
 	switch ($scope_type) {
 		case 'faculty':
 			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
-			$this->db->join('deparments', 'deparments.department_id = programs.department_id');
+			$this->db->join('departments', 'departments.department_id = programs.department_id');
 			$this->db->where(['department_id' => $scope]);
 			break;
 		case 'department':
@@ -191,9 +195,19 @@ class Search_model extends CI_Model {
 
   function listAllProgramOptions()
   {
-	  $data = $this->db->select('title', 'program_id')->join('account_localizations', 'program_id = account_id')->get('programs');
+	  $data = $this->db->select(['program_id', 'title'])
+	  	->join('account_localizations', 'program_id = account_id')->order_by('title')->get('programs');
 	  foreach ($data->result() as $program) {
-		  $list[$program->program_id] = [$program->title];
+		  $list[$program->program_id] = $program->title;
+	  }
+	  return $list;
+  }
+
+  function listAllWeblinkOptions()
+  {
+	  $data = $this->db->get('op_weblinks');
+	  foreach ($data->result() as $weblink) {
+		  $list[$weblink->weblink] = $weblink->weblink;
 	  }
 	  return $list;
   }

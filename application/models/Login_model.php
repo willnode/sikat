@@ -1,6 +1,6 @@
 <?php
 
-class Login_model extends CI_Model{
+class Login_model extends CI_Model {
 
 	function is_logged_in() {
 		return (bool)$this->session->userdata('username');
@@ -13,9 +13,9 @@ class Login_model extends CI_Model{
 	function get_current_login_detail() {
 		$id = $this->session->userdata('username');
 		$type = $this->db->select('type')->get_where('accounts', ['account_id' => $id])->row()->type;
-		$is_member = $type == 's' || $type == 't';
+		$is_member = $type == 'student' || $type == 'teacher';
 		$folder = $is_member ? 'profiles' : 'logos';
-		$ext = $is_member == 't' ? 'jpg' : 'png';
+		$ext = $is_member ? 'jpg' : 'png';
 		return (object)[
 			'username' => $id,
 			'type' => $type,

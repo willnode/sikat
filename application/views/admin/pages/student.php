@@ -1,5 +1,7 @@
 <?php
 
-if ($login->type == 'c' || $login->type == 'd' || $login->type == 'p') {
-	# Manajemen akun mahasiswa
+if (!$login->is_member) {
+
+	$this->load->view('admin/listing', ['items' => $list->students, 'item_id' => 'student_id', 'item_title' => 'name']);
+
 }

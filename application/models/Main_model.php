@@ -35,14 +35,15 @@ class Main_model extends CI_Model {
 			'teachers.name as teacher_name',
 			'student_id', 'teacher_id', 'title'
 			]);
-		$this->db->join('students', 'structures.member_id = students.student_id', 'left outer');
-		$this->db->join('teachers', 'structures.member_id = teachers.teacher_id', 'left outer');
+		$this->db->join("structure_members", "structure_members.cabinet_id = structures.cabinet_id");
+		$this->db->join('students', 'structure_members.member_id = students.student_id', 'left outer');
+		$this->db->join('teachers', 'structure_members.member_id = teachers.teacher_id', 'left outer');
 		$this->db->join("structure_localizations",
-		"structure_localizations.structure_id = structures.structure_id AND ".
-		"structure_localizations.member_id = structures.member_id AND ".
+		"structure_localizations.cabinet_id = structures.cabinet_id AND ".
+		"structure_localizations.member_id = structure_members.member_id AND ".
 		"structure_localizations.lang = '$this->lang'"
 		, 'left outer');
-		$this->db->where(['structures.structure_id' => $id, 'category' => 0]);
+		$this->db->where(['structures.structure_id' => $id, 'category' => 0, 'end_date' => '0000-00-00']);
 		$this->db->order_by('ordering');
 		return $this->db->get('structures');
 	}
@@ -99,6 +100,7 @@ class Main_model extends CI_Model {
 			],
 			'structure' => $this->dbGetStructureData($id)->result(),
 			'feed' => $this->dbGetFeedData($id),
+			'weblinks' => $this->dbGetWeblinkData($id),
 		];
 	  }
 
@@ -118,6 +120,7 @@ class Main_model extends CI_Model {
 		],
 		'structure' => $this->dbGetStructureData($id)->result(),
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id),
 	];
   }
 
@@ -133,28 +136,51 @@ class Main_model extends CI_Model {
 		],
 		'structure' => $this->dbGetStructureData($id)->result(),
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id),
 	];
   }
 
   function getStudentDatabase($id){
 	$this->db->select([
+		'departments.faculty_id',
 		'programs.program_id',
 		'programs.department_id',
 		'students.student_id',
 		'students.name',
-		'students.program_type',
+		'programs.program_type',
 		'EXTRACT(YEAR from students.entry_date) as entry_year',
 		'(YEAR(CURRENT_TIMESTAMP) - YEAR(students.entry_date)) * 2 - 1 + (3 - FLOOR(MONTH(CURRENT_TIMESTAMP) / 6)) as semester'
 		]);
 	$this->db->join("programs", 'programs.program_id = students.program_id');
+	$this->db->join("departments", 'departments.department_id = programs.department_id');
 	$student = $this->db->get_where('students', ['students.student_id' => $id], 1)->row();
 	$student->program_title = $this->db->select('title')->get_where('account_localizations',
 		['account_id' => $student->program_id, 'lang' => $this->lang], 1)->row()->title;
 	$student->department_title = $this->db->select('title')->get_where('account_localizations',
 		['account_id' => $student->department_id, 'lang' => $this->lang], 1)->row()->title;
+	$student->faculty_title = $this->db->select('title')->get_where('account_localizations',
+		['account_id' => $student->faculty_id, 'lang' => $this->lang], 1)->row()->title;
 	return (object)[
 		'student' => $student,
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id),
+		'organizations' => $this->db
+			->join("organizations", 'organizations.organization_id = organization_members.organization_id')
+			->get_where('organization_members', ['member_id' => $id])->result(),
+		'structures' => $this->db
+			->select([
+				'account_localizations.title as organization_title',
+				'structure_localizations.title as structure_title',
+				'structures.structure_id',
+				'structures.start_date',
+				'structures.end_date',
+				])
+			->join("structures", "structures.cabinet_id = structure_members.cabinet_id")
+			->join("account_localizations", "account_localizations.account_id = structures.structure_id AND account_localizations.lang = '$this->lang'", 'left outer')
+			->join("structure_localizations", "structure_localizations.cabinet_id = structure_members.cabinet_id"
+			." AND structure_localizations.member_id = structure_members.member_id"
+			." AND structure_localizations.lang = '$this->lang'", 'left outer')
+			->get_where('structure_members', ['structure_members.member_id' => $id])->result(),
 	];
   }
 
@@ -176,6 +202,24 @@ class Main_model extends CI_Model {
 	return (object)[
 		'teacher' => $teacher,
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id),
+		'organizations' => $this->db
+			->join("organizations", 'organizations.organization_id = organization_members.organization_id')
+			->get_where('organization_members', ['member_id' => $id])->result(),
+		'structures' => $this->db
+			->select([
+				'account_localizations.title as organization_title',
+				'structure_localizations.title as structure_title',
+				'structures.structure_id',
+				'structures.start_date',
+				'structures.end_date',
+				])
+			->join("structures", "structures.cabinet_id = structure_members.cabinet_id")
+			->join("account_localizations", "account_localizations.account_id = structures.structure_id AND account_localizations.lang = '$this->lang'", 'left outer')
+			->join("structure_localizations", "structure_localizations.cabinet_id = structure_members.cabinet_id"
+			." AND structure_localizations.member_id = structure_members.member_id"
+			." AND structure_localizations.lang = '$this->lang'", 'left outer')
+			->get_where('structure_members', ['structure_members.member_id' => $id])->result(),
 	];
   }
 
@@ -190,6 +234,7 @@ class Main_model extends CI_Model {
 		],
 		'structure' => $this->dbGetStructureData($id)->result(),
 		'feed' => $this->dbGetFeedData($id),
+		'weblinks' => $this->dbGetWeblinkData($id),
 	];
   }
 

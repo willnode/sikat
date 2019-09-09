@@ -51,6 +51,7 @@
 								</div>
 								<div class="col-6 text-right">
 									<button class="btn btn-link px-0" type="button">Forgot password?</button>
+									<a class="btn btn-link px-0" href="<?=base_url()?>">Home</a>
 								</div>
 							</div>
 						</form>

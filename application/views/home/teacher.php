@@ -12,6 +12,9 @@
 	NIDN. <?=$teacher->lecturer_nidn?><br>
 </div>
 
+<?php $this->load->view('components/campus-organization'); ?>
 
-<?php $this->load->view('components/campus-feed', ['feed' => $feed]); ?>
+<?php $this->load->view('components/campus-titles'); ?>
+
+<?php $this->load->view('components/campus-feed'); ?>
 </div>

@@ -1,4 +1,4 @@
-
+<?php if (!empty($organizations)) : ?>
 <div class="box-section">
 	<div class="container-label"><?=lang('organizations')?></div>
 	<div class="campus-list">
@@ -18,3 +18,4 @@
 		<?php endforeach ?>
 	</div>
 </div>
+<?php endif ?>

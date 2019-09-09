@@ -49,19 +49,25 @@
 					<i class="nav-icon icon-pencil"></i> Statistik</a>
 			</li>
 			<?php endif ?>
-			<?php if ($login->type == 'c') : ?>
+			<?php if ($login->type == 'campus') : ?>
 			<li class="nav-item">
-				<a class="nav-link" href="department">
+				<a class="nav-link" href="faculty">
 					<i class="nav-icon icon-pencil"></i> Fakultas</a>
 			</li>
 			<?php endif ?>
-			<?php if ($login->type == 'c' || $login->type == 'd') : ?>
+			<?php if ($login->type == 'campus' || $login->type == 'faculty') : ?>
+			<li class="nav-item">
+				<a class="nav-link" href="department">
+					<i class="nav-icon icon-pencil"></i> Jurusan</a>
+			</li>
+			<?php endif ?>
+			<?php if ($login->type == 'campus' || $login->type == 'faculty' || $login->type == 'department') : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="program">
 					<i class="nav-icon icon-pencil"></i> Prodi</a>
 			</li>
 			<?php endif ?>
-			<?php if ($login->type == 'c' || $login->type == 'd' || $login->type == 'p') : ?>
+			<?php if ($login->type == 'campus' || $login->type == 'faculty' || $login->type == 'department' || $login->type == 'program') : ?>
 			<li class="nav-item">
 				<a class="nav-link" href="student">
 					<i class="nav-icon icon-pencil"></i> Mahasiswa</a>

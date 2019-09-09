@@ -157,7 +157,8 @@ class Main extends CI_Controller {
 	}
 
 	function switch_lang($language = "") {
+		$this->load->library('user_agent');
 		$this->session->set_userdata('site_lang', $language ?: "english");
-		redirect($_SERVER->HTTP_REFERER);
+		redirect($this->agent->referrer());
 	}
 }

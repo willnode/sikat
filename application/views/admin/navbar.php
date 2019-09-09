@@ -17,13 +17,13 @@
 </li> -->
 	</ul>
 	<ul class="nav navbar-nav d-md-down-none">
-		<li>
-		<div class="campus-logo-sm mr-2"><img class="w-100" alt="" src="<?=base_url($login->avatar)?>"></div>
+		<li class="nav-item">
+		<a class="nav-link" href="#noe"><img class="img-avatar" alt="" src="<?=base_url($login->avatar)?>"></a>
 		</li>
-		<li class="nav-item px-3">
+		<li class="nav-item">
 			<a class="btn btn btn-outline-success" href="<?=base_url($login->username)?>">Profile</a>
 		</li>
-		<li class="nav-item px-3">
+		<li class="nav-item">
 			<a class="btn btn btn-outline-warning" href="<?=base_url("logout")?>">Logout</a>
 		</li>
 	</ul>

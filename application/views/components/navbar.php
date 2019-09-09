@@ -7,7 +7,7 @@
     <input name="q" class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search" value="<?=$this->input->get('q')?>">
   </form>
   <form class="form-inline  mr-sm-2">
-    <select class="form-control form-control-sm" onchange="javascript:window.location.href='<?php echo base_url(); ?>switch_lang/'+this.value;">
+    <select class="form-control form-control-sm" onchange="javascript:window.location='<?php echo base_url(); ?>switch_lang/'+this.value;">
       <option value="english" <?php if($this->session->userdata('site_lang') == 'english') echo 'selected'; ?>>English</option>
       <option value="indonesian" <?php if($this->session->userdata('site_lang') == 'indonesian') echo 'selected'; ?>>Indonesia</option>
     </select>

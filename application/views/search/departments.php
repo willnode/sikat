@@ -1,12 +1,5 @@
+<?php include 'search-nav.php' ?>
 
-<div class="box-section p-3">
-	About <?=$count?> Results &mdash;
-	<?php
-	$maxpage = floor($count / $pagination) + 1;
-	for ($i=1; $i <= $maxpage; $i++) : ?>
-	<a href="<?=base_url("departments/$scope?page=$i")?>"><?=$i?></a>
-	<?php endfor ?>
-</div>
 
 <div class="box-section">
 	<div class="campus-list">
