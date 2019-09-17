@@ -1,196 +1,162 @@
-<?php
+<?php namespace App\Models;
 
-class SearchModel extends CI_Model {
+use CodeIgniter\Database\ConnectionInterface;
 
-	function __construct()
+class SearchModel {
+
+
+	protected $db;
+
+	public function __construct(ConnectionInterface &$db)
 	{
-		$this->lang = ['english' => 'en', 'indonesian' => 'id'][$this->session->userdata('site_lang') ?: $this->config->config['language']];
+		$this->db =& $db;
+		$this->lang = session('site_lang') ?: (new \Config\App())->defaultLocale;
+	}
+
+	function getList($scopeAccount, $mode, $search, $page, $limit)
+	{
+		$query = $this->db->table($mode == 'alumni' ? 'students' : $mode);
+
+		$fn = [
+			'students' => 'narrowStudentScope',
+			'alumni' => 'narrowAlumniScope',
+			'teachers' => 'narrowTeacherScope',
+			'organizations' => 'narrowOrganizationScope',
+			'programs' => 'narrowProgramScope',
+			'departments' => 'narrowDepartmentScope',
+			'faculties' => 'narrowFacultyScope',
+		][$mode];
+
+		$idd = [
+			'students' => 'student_id',
+			'alumni' => 'student_id',
+			'teachers' => 'teacher_id',
+			'organizations' => 'organization_id',
+			'programs' => 'program_id',
+			'departments' => 'department_id',
+			'faculties' => 'faculty_id',
+		][$mode];
+
+		$this->$fn($query, $scopeAccount->account_id, $scopeAccount->type);
+
+		if (!empty($search)) $query->like('name', $search, 'both');
+
+		$count = $query->countAllResults(FALSE);
+
+		return [
+			'items' => $query->get($limit, ($page - 1) * $limit)->getResult(),
+			'count' => $count,
+			'pagination' => $limit,
+			'scope' => $scopeAccount->account_id,
+			'query' => $search,
+			'mode' => $mode,
+			'member_mode' => $mode == 'students' || $mode == 'teachers',
+			'id_key' => $idd,
+		];
 	}
 
 	var $lang = 'id';
 
-  function getTeacherList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+  	function narrowTeacherScope(&$query, $scope, $scope_type) {
 
 	switch ($scope_type) {
 		case 'faculty':
-			$this->db->join('programs', 'programs.program_id = teachers.program_id');
-			$this->db->join('departments', 'departments.department_id = programs.department_id');
-			$this->db->where(['faculty_id' => $scope]);
+			$query->join('programs', 'programs.program_id = teachers.program_id');
+			$query->join('departments', 'departments.department_id = programs.department_id');
+			$query->where(['faculty_id' => $scope]);
 			break;
 		case 'department':
-			$this->db->join('programs', 'programs.program_id = teachers.program_id');
-			$this->db->where(['department_id' => $scope]);
+			$query->join('programs', 'programs.program_id = teachers.program_id');
+			$query->where(['department_id' => $scope]);
 			break;
 		case 'program':
-			$this->db->where(['program_id' => $scope]);
+			$query->where(['program_id' => $scope]);
 			break;
 	}
-
-	if ($query)	$this->db->like('name', $query, 'both');
-
-	$count = $this->db->count_all_results('teachers', FALSE);
-
-	return (object)[
-		'teachers' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
-
   }
 
 
-  function getStudentList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
-
+  function narrowStudentScope(&$query, $scope, $scope_type) {
 	switch ($scope_type) {
 		case 'department':
-			$this->db->join('programs', 'programs.program_id = students.program_id');
-			$this->db->where(['department_id' => $scope]);
+			$query->join('programs', 'programs.program_id = students.program_id');
+			$query->where(['department_id' => $scope]);
 			break;
 		case 'program':
-			$this->db->where(['program_id' => $scope]);
+			$query->where(['program_id' => $scope]);
 			break;
 		default:
 			# code...
 			break;
 	}
-
-	$this->db->where(['status' => 'active']);
-
-	if ($query)	$this->db->like('name', $query, 'both');
-
-	$count = $this->db->count_all_results('students', FALSE);
-
-	return (object)[
-		'students' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
+	$query->where(['status' => 'active']);
   }
 
-  function getAlumniList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
-
+  function narrowAlumniScope(&$query, $scope, $scope_type) {
 	switch ($scope_type) {
 		case 'department':
-			$this->db->join('programs', 'programs.program_id = students.program_id');
-			$this->db->where(['department_id' => $scope]);
+			$query->join('programs', 'programs.program_id = students.program_id');
+			$query->where(['department_id' => $scope]);
 			break;
 		case 'program':
-			$this->db->where(['program_id' => $scope]);
+			$query->where(['program_id' => $scope]);
 			break;
 		case 'campus':
 		default:
 			# code...
 			break;
 	}
-
-	if ($query)	$this->db->like('name', $query, 'both');
-
-	$this->db->where(['status' => 'alumni']);
-
-	$count = $this->db->count_all_results('students', FALSE);
-
-	return (object)[
-		'students' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
+	$query->where(['status' => 'alumni']);
   }
 
-  function getOrganizationList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+  function narrowOrganizationScope(&$query, $scope, $scope_type) {
 
 	switch ($scope_type) {
 		case 'faculty':
-			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
-			$this->db->join('departments', 'departments.department_id = programs.department_id');
-			$this->db->where(['department_id' => $scope]);
+			$query->join('programs', 'programs.program_id = organizations.organization_parent');
+			$query->join('departments', 'departments.department_id = programs.department_id');
+			$query->where(['department_id' => $scope]);
 			break;
 		case 'department':
-			$this->db->join('programs', 'programs.program_id = organizations.organization_parent');
-			$this->db->where(['department_id' => $scope]);
+			$query->join('programs', 'programs.program_id = organizations.organization_parent');
+			$query->where(['department_id' => $scope]);
 			break;
 		case 'program':
-			$this->db->where(['organization_parent' => $scope]);
+			$query->where(['organization_parent' => $scope]);
 			break;
 	}
-
-	if ($query)	$this->db->like('slug', $query, 'both');
-
-	$count = $this->db->count_all_results('organizations', FALSE);
-
-	return (object)[
-		'organizations' => $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
   }
 
 
-  function getFacultyList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+  function narrowFacultyScope(&$query, $scope, $scope_type) {
 
-	$this->db->join("account_localizations",
+	$query->join("account_localizations",
 		"account_localizations.account_id = faculties.faculty_id".
 		" AND account_localizations.lang = '$this->lang'", 'left outer');
-
-	if ($query)	$this->db->like('title', $query, 'both');
-
-	$count = $this->db->count_all_results('faculties', FALSE);
-
-	return (object)[
-		'faculties' =>  $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
   }
 
-  function getDepartmentList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+  function narrowDepartmentScope(&$query, $scope, $scope_type) {
 
-	$this->db->join("account_localizations",
+	$query->join("account_localizations",
 		"account_localizations.account_id = departments.department_id".
 		" AND account_localizations.lang = '$this->lang'", 'left outer');
-
-	if ($query)	$this->db->like('title', $query, 'both');
-
-	$count = $this->db->count_all_results('departments', FALSE);
-
-	return (object)[
-		'departments' =>  $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
   }
 
-  function getProgramList($scope, $scope_type, $query, $offset = 0, $limit = 0) {
+  function narrowProgramScope(&$query, $scope, $scope_type) {
 
-	switch ($scope_type) {
-		case 'faculty':
-			$this->db->join('deparments', 'deparments.department_id = programs.department_id');
-			$this->db->where(['faculty_id' => $scope]);
-			break;
-		case 'department':
-			$this->db->where(['department_id' => $scope]);
-			break;
-	}
-
-	$this->db->join("account_localizations",
+	$query->join("account_localizations",
 		"account_localizations.account_id = programs.program_id".
 		" AND account_localizations.lang = '$this->lang'", 'left outer');
 
-	if ($query)	$this->db->like('title', $query, 'both');
-
-	$count = $this->db->count_all_results('programs', FALSE);
-
-	return (object)[
-		'programs' =>  $this->db->get('', $limit, $offset)->result(),
-		'count' => $count,
-		'pagination' => $limit,
-		'scope' => $scope
-	];
+	switch ($scope_type) {
+		case 'faculty':
+			$query->join('deparments', 'deparments.department_id = programs.department_id');
+			$query->where(['faculty_id' => $scope]);
+			break;
+		case 'department':
+			$query->where(['department_id' => $scope]);
+			break;
+	}
   }
 
   function listAllProgramOptions()

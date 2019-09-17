@@ -1,9 +1,9 @@
 
 <?= view("$theme/widgets/hero-unit" )?>
 
-<div class="container">
-
 <?= view("$theme/widgets/subunits", ['listTitle' => 'Campus.faculties', 'subUnitId' => 'department_id' ] )?>
+
+<div class="container">
 
 <?= view("$theme/widgets/stats"); ?>
 

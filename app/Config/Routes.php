@@ -74,7 +74,11 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->add('panel/(.+)', 'Panel::$1');
-$routes->get('fetch_rss/(.+)', 'Home::fetch_rss/$1');
+$routes->get('fetch_rss/([^/]+)', 'Home::fetch_rss/$1');
+foreach (['students', 'alumni', 'teachers', 'faculties', 'departments', 'programs',
+		  'organizations', 'facilities', 'services', 'journals'] as $query) {
+	$routes->get("$query/([^/]+)", "Home::search/$query/$1");
+}
 $routes->get('([^/]+)', function ($page) {
 	$home = new Home();
 	switch ($page) {

@@ -18,12 +18,14 @@ const extractRSSFeed = (text) => {
 	const date = new Date(pubDate);
 
     return `
-      <div class="list-group-item list-group-item-action">
-        <a href="${link}" class="title">${title}</a>
-          <small class="datestamp">
-            ${date.toLocaleDateString()}
-          </small>
-      </div>`;
+    <div class="card">
+        <div class="card-body">
+          <a href="${link}" class="card-title">${title}</a>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">${date.toLocaleDateString()}</small>
+        </div>
+    </div>`;
   }).join('');
 
   // append the detailed block in the selected continer

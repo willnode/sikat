@@ -2,6 +2,7 @@
 
 use \App\Models\LoginModel;
 use \App\Models\MainModel;
+use \App\Models\SearchModel;
 
 class Home extends BaseController
 {
@@ -35,26 +36,19 @@ class Home extends BaseController
 
 	public function search($type, $id = '')
 	{
+		$this->theme = 'minimalist';
 		$page_count = 40;
-		$page = min(10, $this->input->get('page') ?: 1);
-		view("$this->theme/header");
-		view("$this->theme/navbar");
-
-		$id = $id ?: $this->db->get('campus')->row()->campus_id;
+		$page = min(10, $this->request->getGet('page') ?: 1);
+		$id = $id ?: $this->db->table('campus')->get()->getRow()->campus_id;
 		$account = $this->MainModel->getAccountInfo($id);
-		$query = [
-			'students' => 'getStudentList',
-			'alumni' => 'getAlumniList',
-			'teachers' => 'getTeacherList',
-			'organizations' => 'getOrganizationList',
-			'programs' => 'getProgramList',
-			'departments' => 'getDepartmentList',
-			'faculties' => 'getFacultyList',
-		][$type];
-		$data = $this->SearchModel->$query($id, $account->type, $this->input->get('q'), ($page - 1) * $page_count, $page_count);
-		view('search/'.$type, $data);
-
-		view('components/footer', ['account' => $account]);
+		$q = $this->request->getGet('q');
+		$data = (new SearchModel($this->db))
+			->getList($account, $type, $q, $page, $page_count);
+		return
+			view("$this->theme/header").
+			view("$this->theme/navbar", ['query' => $q, 'login' => $account->account_id, 'lang' => session('site_lang')]).
+			view("$this->theme/layout/search", $data).
+			view("$this->theme/footer", ['account' => $account]);
 	}
 
 	public function fetch_rss($id)
@@ -127,8 +121,6 @@ class Home extends BaseController
 		} else {
 			return view('admin/login');
 		}
-
-
 	}
 
 	function logout(){

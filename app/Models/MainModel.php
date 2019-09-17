@@ -33,9 +33,9 @@ class MainModel {
 	function dbGetOrganizationsData($id)
 	{
 		return (object)[
-			'community' => $this->dbGetLocalized('organizations', 'organization_id', ['organization_parent' => $id, 'type' => 'community'])->getResult(),
+			'community' => $this->dbGetLocalized('organizations', 'organization_id', ['organization_parent' => $id])->getResult(),
 			'facility' => $this->dbGetLocalized('facilities', 'facility_id', ['facility_parent' => $id])->getResult(),
-			'unitService' => $this->dbGetLocalized('organizations', 'organization_id', ['organization_parent' => $id, 'type' => 'unit-service'])->getResult(),
+			'services' => $this->dbGetLocalized('services', 'service_id', ['service_parent' => $id])->getResult(),
 		];
 	}
 
@@ -71,6 +71,11 @@ class MainModel {
 	}
 
 
+	function dbGetWebpageData($id)
+	{
+		return $this->db->table('account_webpages')->getWhere(['account_id' => $id, 'lang' => $this->lang])->getResult();
+	}
+
 	function getTheme(){
 		return 'minimalist';
 	}
@@ -87,7 +92,9 @@ class MainModel {
 			'faculties' => $this->db->table("faculties")->countAllResults(),
 			'departments' => $this->db->table("departments")->countAllResults(),
 			'programs' => $this->db->table("programs")->countAllResults(),
-			'organizations' => $this->db->table("organizations")->countAllResults()
+			'organizations' => $this->db->table("organizations")->countAllResults(),
+			'services' => $this->db->table("services")->countAllResults(),
+			'facilities' => $this->db->table("facilities")->countAllResults(),
 		];
 		$unit = $this->dbGetLocalized('campus', 'campus_id', ['campus.campus_id' => $id])->getRow();
 		return [

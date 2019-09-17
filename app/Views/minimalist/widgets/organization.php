@@ -6,17 +6,14 @@
 			$id = $org->organization_id;
 			?>
 		<div class="col-3 p-3">
-			<div class="campus-logo-md mb-2">
-			<?php if (is_file("./files/logos/$id.png")) : ?>
-				<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
-			<?php endif ?>
-			</div>
-
+			<?= campus_logo_md($id) ?>
 			<a href="<?=base_url($id)?>">
 			<?=$org->slug?></a>
 		</div>
 		<?php endforeach ?>
 	</div>
+	<hr>
+
 	<div class="container-label"><?=lang('Campus.facility')?></div>
 	<div id="facilities" class="campus-list">
 
@@ -26,14 +23,14 @@
 		<div>
 			<div class="card">
 				<?php if (is_file("./files/backgrounds/$id.jpg")) : ?>
-				<img src="<?=base_url("files/backgrounds/$id.jpg")?>" height="150px" class="card-img-top" alt="">
+				<img src="<?=base_url("files/backgrounds/$id.jpg")?>" height="200px" class="card-img-top" alt="">
 				<?php else : ?>
-				<div style="background:gainsboro;height:150px">
-					<?= placeholder($org->slug) ?>
-			</div>
+				<div class="campus-placeholder" style="height:200px">
+					<?= placeholder($id) ?>
+				</div>
 				<?php endif ?>
 				<a class="card-body" href="<?=base_url($id)?>">
-					<h5 class="card-title"><?=$org->title?></h5>
+					<h5 class="card-title unwrap" title="<?=$org->title?>"><?=$org->title?></h5>
 				</a>
 			</div>
 		</div>
@@ -42,22 +39,20 @@
 	</div>
 	<script>
 	$('#facilities').slick({
-		slidesToShow: 3,
+		slidesToShow: Math.min($('#facilities').children().length, 3),
 		slidesToScroll: 1,
 		dots: true,
 	});
 	</script>
-	<div class="container-label"><?=lang('Campus.unitService')?></div>
+	<hr>
+
+	<div class="container-label"><?=lang('Campus.services')?></div>
 	<div class="campus-list">
-		<?php foreach ($organizations->unitService as $org) :
-			$id = $org->organization_id;
+		<?php foreach ($organizations->services as $org) :
+			$id = $org->service_id;
 			?>
 		<div class="col-3 p-3">
-			<div class="campus-logo-md mb-2">
-			<?php if (is_file("./files/logos/$id.png")) : ?>
-				<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$id.png")?>">
-			<?php endif ?>
-			</div>
+			<?= campus_logo_md($id) ?>
 
 			<a href="<?=base_url($id)?>">
 			<?=$org->slug?></a>

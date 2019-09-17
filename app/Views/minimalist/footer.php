@@ -1,3 +1,4 @@
+</div>
 <div class="footer bg-dark p-3 text-white">
 	<div class="row container m-auto">
 		<div class="col-md-6">

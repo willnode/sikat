@@ -1,7 +1,7 @@
 <div class="box-section">
 	<div class="row">
-		<?php if (!empty($pages)) : ?>
-		<div class="col-lg-4">
+		<div class="col-lg-4 col-xl-3">
+			<?php if (!empty($pages)) : ?>
 			<div class="container-label"><?=lang('Campus.pages')?></div>
 			<div class="list-group">
 			<?php foreach ($pages as $page) : ?>
@@ -10,6 +10,7 @@
 		      </div>
 			<?php endforeach ?>
 			</div>
+			<?php endif ?>
 
 			<div class="container-label"><?=lang('Campus.directories')?></div>
 			<div class="list-group">
@@ -20,19 +21,21 @@
 			<?php endforeach ?>
 			</div>
 		</div>
-		<?php endif ?>
 
-		<div class="col-lg-8">
+		<div class="col-lg-8 col-xl-9">
 			<div class="container-label"><?=lang($listTitle)?></div>
 			<div class="campus-list">
 				<?php foreach ($subunits as $subunit) :
 				$sid = $subunit->{$subUnitId}
 				?>
 				<div class="col-4 p-2">
-					<div class="campus-logo-md mb-2">
-						<?php if (is_file("./files/logos/$sid.png")) : ?>
+					<?php if (is_file("./files/logos/$sid.png")) : ?>
+						<div class="campus-logo-md mb-2">
 						<img class="w-100" alt="Logo" src="<?=base_url("files/logos/$sid.png")?>">
-						<?php endif ?>
+					<?php else : ?>
+					<div class="campus-placeholder">
+						<?=placeholder($sid)?>
+					<?php endif ?>
 					</div>
 
 					<a href="<?=base_url($sid)?>">
