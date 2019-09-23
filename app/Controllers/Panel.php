@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use \App\Models\LoginModel;
+use \App\Models\SearchModel;
 
 class Panel extends BaseController
 {
@@ -9,15 +10,20 @@ class Panel extends BaseController
 	{
 			$db = \Config\Database::connect();
 			$this->LoginModel = new LoginModel($db);
-	}
+			$this->SearchModel = new SearchModel($db);
+			$this->db = &$db;
+			\helper('form');
+			\helper('FormControl');
+		}
 
 	public function dashboard()
 	{
-		view('admin/header');
+		return
+		view('admin/header').
 		view('admin/footer');
 	}
 
-	public function _remap($page)
+	public function page($page)
 	{
 		if (!$this->LoginModel->is_logged_in()) {
 			return $this->response->redirect(base_url('login'));
@@ -30,8 +36,9 @@ class Panel extends BaseController
 		if (method_exists($this, $page."Data")) {
 			$this->{$page."Data"}($data);
 		}
-		view('admin/header', $data);
-		view("admin/pages/$page", $data);
+		return
+		view('admin/header', $data).
+		view("admin/pages/$page", $data).
 		view('admin/footer');
 	}
 
@@ -39,31 +46,31 @@ class Panel extends BaseController
 		$id = $data['login']->username;
 		switch ($data['login']->type) {
 			case 'student':
-				$row = $this->db->get_where('students', ['student_id' => $id], 1)->row();
+				$row = $this->db->table('students')->getWhere(['student_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'teacher':
-				$row = $this->db->get_where('teachers', ['teacher_id' => $id], 1)->row();
+				$row = $this->db->table('teachers')->getWhere(['teacher_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'organization':
-				$row = $this->db->get_where('organizations', ['organization_id' => $id], 1)->row();
+				$row = $this->db->table('organizations')->getWhere(['organization_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'program':
-				$row = $this->db->get_where('programs', ['program_id' => $id], 1)->row();
+				$row = $this->db->table('programs')->getWhere(['program_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'department':
-				$row = $this->db->get_where('departments', ['department_id' => $id], 1)->row();
+				$row = $this->db->table('departments')->getWhere(['department_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'faculty':
-				$row = $this->db->get_where('faculties', ['faculty_id' => $id], 1)->row();
+				$row = $this->db->table('faculties')->getWhere(['faculty_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 			case 'campus':
-				$row = $this->db->get_where('campus', ['campus_id' => $id], 1)->row();
+				$row = $this->db->table('campus')->getWhere(['campus_id' => $id], 1)->getRow();
 				$data['biodata'] = $row;
 				break;
 		}
@@ -71,14 +78,14 @@ class Panel extends BaseController
 
 	public function lookData(&$data) {
 		$id = $data['login']->username;
-		$row = $this->db->get_where('account_localizations', ['account_id' => $id])->result();
+		$row = $this->db->table('account_localizations')->getWhere(['account_id' => $id])->getResult();
 		$data['localizations'] = $row;
 	}
 
 	public function contentData(&$data) {
 		$id = $data['login']->username;
-		$feed = $this->db->get_where('account_feeds', ['account_id' => $id])->result();
-		$weblink = $this->db->get_where('account_weblinks', ['account_id' => $id])->result();
+		$feed = $this->db->table('account_feeds')->getWhere(['account_id' => $id])->getResult();
+		$weblink = $this->db->table('account_weblinks')->getWhere(['account_id' => $id])->getResult();
 		$data['feeds'] = $feed;
 		$data['weblinks'] = $weblink;
 		$data['op_weblinks'] = $this->SearchModel->listAllWeblinkOptions();

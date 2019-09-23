@@ -184,3 +184,11 @@ p.footer {
     left: 0;
     right: 0;
 }
+
+.campus-pages {
+	width: calc(100% - 15px);
+    top: 0;
+    position: absolute;
+    bottom: 0;
+    overflow: auto;
+}

@@ -2,17 +2,11 @@
 <div class="box-section">
 	<div class="container-label"><?=lang('Campus.structure')?></div>
 	<div class="campus-list campus-list-photo">
-		<?php foreach ($structure as $member) : ?>
+		<?php foreach ($structure as $member) : $sid = $member->student_id ?: $member->teacher_id ?>
 		<div class="col-lg-3 col-md-4 col-12 p-2">
-			<div class="campus-photo mb-2">
-			<?php
-			$photo = "./files/profiles/".($member->student_id ?: $member->teacher_id).".jpg";
-			if (is_file($photo)) : ?>
-				<img class="w-100" alt="Logo" src="<?=base_url($photo)?>">
-			<?php endif ?>
-			</div>
+			<?=campus_photo($sid)?>
 			<div>
-			<a href="<?=base_url($member->student_id ?: $member->teacher_id)?>">
+			<a href="<?=base_url($sid)?>">
 			<?=$member->student_name ?: $member->teacher_name ?></a>
 			</div>
 			<small><?=$member->title?></small>

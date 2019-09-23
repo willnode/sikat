@@ -12,7 +12,8 @@
 	<?php if (isset($slug)): ?>
 	<small class="text-muted"><?=$slug?></small>
 	<?php endif ?>
-	<?php if (isset($weblinks)) : ?>
+
+	<?php if (!empty($weblinks)) : ?>
 	<div class="row justify-content-center">
 	<?php foreach ($weblinks as $link) : ?>
 

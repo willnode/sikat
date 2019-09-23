@@ -73,15 +73,19 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->add('panel/(.+)', 'Panel::$1');
+$routes->add('panel/(.+)', 'Panel::page/$1');
 $routes->get('fetch_rss/([^/]+)', 'Home::fetch_rss/$1');
+$routes->get('api/([^/]+)', 'Home::api/$1');
 foreach (['students', 'alumni', 'teachers', 'faculties', 'departments', 'programs',
 		  'organizations', 'facilities', 'services', 'journals'] as $query) {
 	$routes->get("$query/([^/]+)", "Home::search/$query/$1");
 }
 $routes->get('([^/]+)', function ($page) {
 	$home = new Home();
+	$home->initController(\Config\Services::request(), \Config\Services::response(), \Config\Services::logger());
 	switch ($page) {
+		case 'api':
+			return $home->index_api();
 		case 'login':
 			return $home->login();
 		case 'logout':
@@ -91,6 +95,7 @@ $routes->get('([^/]+)', function ($page) {
 	}
 });
 $routes->post('switch_lang', 'Home::switch_lang/$1');
+$routes->post('login', 'Home::login');
 
 /**
  * --------------------------------------------------------------------

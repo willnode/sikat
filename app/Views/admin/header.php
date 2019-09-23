@@ -1,6 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-?><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -16,8 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script src="<?=base_url('assets/vendors/coreui/js/coreui.min.js')?>"></script>
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show pace-done pace-done">
-<?php view('admin/navbar', ['login' => $login]); ?>
+<?= view('admin/navbar', ['login' => $login]); ?>
 <div class="app-body">
-<?php view('admin/sidebar', ['login' => $login]);?>
+<?= view('admin/sidebar', ['login' => $login]);?>
 <main class="main">
 <div class="container-fluid my-3">

@@ -1,6 +1,7 @@
 <div class="box-section">
 	<div class="row">
 		<div class="col-lg-4 col-xl-3">
+			<div class="campus-pages">
 			<?php if (!empty($pages)) : ?>
 			<div class="container-label"><?=lang('Campus.pages')?></div>
 			<div class="list-group">
@@ -19,6 +20,7 @@
        			 <a href="<?=base_url("$key/$id")?>" class="title"><?=lang('Campus.'.$key)?></a>
 		      </div>
 			<?php endforeach ?>
+			</div>
 			</div>
 		</div>
 

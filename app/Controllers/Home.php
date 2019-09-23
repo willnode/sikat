@@ -22,6 +22,18 @@ class Home extends BaseController
 		return $this->page($id);
 	}
 
+	public function index_api()
+	{
+		$id = $this->db->table('campus')->select('campus_id')->get()->getRow()->campus_id;
+		return $this->response->redirect(base_url('api/'.$id));
+	}
+
+	public function api($id)
+	{
+		$account = $this->MainModel->getAccountInfo($id);
+		return $this->response->setJSON($this->MainModel->getDatabase($id, $account->type));
+	}
+
 	public function page($id)
 	{
 		$theme = 'minimalist';
@@ -29,7 +41,7 @@ class Home extends BaseController
 		$account = $this->MainModel->getAccountInfo($id);
 		return
 			view("$theme/header").
-			view("$theme/navbar", ['float' => 1, 'query' => '', 'login' => $account->account_id, 'lang' => session('site_lang')]).
+			view("$theme/navbar", ['float' => 1, 'query' => '', 'login' =>  session('username'), 'lang' => session('site_lang')]).
 			view("$theme/layout/$account->type", $this->MainModel->getDatabase($id, $account->type)).
 			view("$theme/footer", ['account' => $account]);
 	}
@@ -108,8 +120,8 @@ class Home extends BaseController
 		$db = \Config\Database::connect();
 		$LoginModel = new LoginModel($db);
 		if ($this->request->getMethod() == 'post') {
-			$id = $this->request->post('username');
-			if ($LoginModel->check_login($id, $this->request->post('password'))) {
+			$id = $this->request->getPost('username');
+			if ($LoginModel->check_login($id, $this->request->getPost('password'))) {
 				$LoginModel->set_current_login($id);
 				return $this->response->redirect(base_url('panel/dashboard'));
 			} else {

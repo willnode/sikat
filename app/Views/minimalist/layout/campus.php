@@ -3,9 +3,9 @@
 
 <?= view("$theme/widgets/subunits", ['listTitle' => 'Campus.faculties', 'subUnitId' => 'faculty_id' ] )?>
 
-<div class="container">
-
 <?= view("$theme/widgets/stats"); ?>
+
+<div class="container">
 
 <?= view("$theme/widgets/structure"); ?>
 

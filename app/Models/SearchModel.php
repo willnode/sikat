@@ -161,7 +161,7 @@ class SearchModel {
 
   function listAllProgramOptions()
   {
-	  $data = $this->db->select(['program_id', 'title'])
+	  $data = $this->db->table('account_localizations')->select(['program_id', 'title'])
 	  	->join('account_localizations', 'program_id = account_id')->order_by('title')->get('programs');
 	  foreach ($data->result() as $program) {
 		  $list[$program->program_id] = $program->title;
@@ -171,7 +171,7 @@ class SearchModel {
 
   function listAllWeblinkOptions()
   {
-	  $data = $this->db->get('op_weblinks');
+	  $data = $this->db->table('op_weblinks');
 	  foreach ($data->result() as $weblink) {
 		  $list[$weblink->weblink] = $weblink->weblink;
 	  }

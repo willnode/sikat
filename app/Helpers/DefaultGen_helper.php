@@ -17,3 +17,16 @@ function campus_logo_md($id, $margin = 'mb-2') {
 			</div>';
 	}
 }
+
+function campus_photo($id, $margin = 'mb-2') {
+	$photo = "./files/profiles/$id.jpg";
+	if (is_file($photo)) {
+	return '<div class="campus-photo '.$margin.'">
+				<img class="w-100" alt="Logo" src="'.base_url($photo).'">
+			</div>';
+	} else {
+		return '<div class="campus-photo campus-placeholder '.$margin.'">
+					<img class="w-100" alt="Logo" src="'.base_url('assets/images/user.png').'">
+				</div>';
+	}
+}

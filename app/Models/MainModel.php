@@ -58,6 +58,31 @@ class MainModel {
 			->get();
 	}
 
+
+	function dbGetInvolvedStructureData($id)
+	{
+		return $this->db->table('structure_members')
+		->select([
+			'account_localizations.title as organization_title',
+			'structure_localizations.title as structure_title',
+			'structures.structure_id',
+			'structures.start_date',
+			'structures.end_date',
+			])
+		->join("structures", "structures.cabinet_id = structure_members.cabinet_id")
+		->join("account_localizations", "account_localizations.account_id = structures.structure_id AND account_localizations.lang = '$this->lang'", 'left outer')
+		->join("structure_localizations", "structure_localizations.cabinet_id = structure_members.cabinet_id"
+		." AND structure_localizations.member_id = structure_members.member_id"
+		." AND structure_localizations.lang = '$this->lang'", 'left outer')
+		->getWhere(['structure_members.member_id' => $id])->getResult();
+	}
+
+	function dbGetEventData($id)
+	{
+		return $this->db->table('events')->where(['event_parent' => $id])
+			->get()->getResult();
+	}
+
 	function dbGetFeedData($id)
 	{
 		return $this->db->table('account_feeds')->getWhere(['account_id' => $id, 'lang' => $this->lang], 1)->getRow();
@@ -108,6 +133,7 @@ class MainModel {
 			'structure' => $this->dbGetStructureData($id)->getResult(),
 			'feed' => $this->dbGetFeedData($id),
 			'weblinks' => $this->dbGetWeblinkData($id),
+			'events' => $this->dbGetEventData($id),
 			'pages' => $this->db->table('account_webpages')->getWhere(['account_id' => $id, 'lang' => $this->lang])->getResult(),
 		];
 	}
@@ -143,6 +169,7 @@ class MainModel {
 			'structure' => $this->dbGetStructureData($id)->getResult(),
 			'feed' => $this->dbGetFeedData($id),
 			'weblinks' => $this->dbGetWeblinkData($id),
+			'events' => $this->dbGetEventData($id),
 		];
 	  }
 
@@ -173,6 +200,7 @@ class MainModel {
 			'structure' => $this->dbGetStructureData($id)->getResult(),
 			'feed' => $this->dbGetFeedData($id),
 			'weblinks' => $this->dbGetWeblinkData($id),
+			'events' => $this->dbGetEventData($id),
 		];
   }
 
@@ -194,6 +222,7 @@ class MainModel {
 			'structure' => $this->dbGetStructureData($id)->getResult(),
 			'feed' => $this->dbGetFeedData($id),
 			'weblinks' => $this->dbGetWeblinkData($id),
+			'events' => $this->dbGetEventData($id),
 		];
 	}
 
@@ -245,38 +274,42 @@ class MainModel {
 	$teacher = $this->db->table('teachers')->select([
 		'programs.program_id',
 		'programs.department_id',
+		'departments.faculty_id',
 		'teachers.teacher_id',
 		'teachers.name',
 		'teachers.employee_idn',
 		'teachers.lecturer_nidn',
+		'teachers.status',
+		'teachers.almamater',
+		'teachers.address',
 		])
 		->join("programs", 'programs.program_id = teachers.program_id')
+		->join("departments", 'programs.department_id = departments.department_id')
 		->getWhere(['teachers.teacher_id' => $id], 1)->getRow();
 	$teacher->program_title = $this->db->table('account_localizations')->select('title')->getWhere(
 		['account_id' => $teacher->program_id, 'lang' => $this->lang], 1)->getRow()->title ?: '';
 	$teacher->department_title = $this->db->table('account_localizations')->select('title')->getWhere(
 		['account_id' => $teacher->department_id, 'lang' => $this->lang], 1)->getRow()->title;
-	return [
+	$teacher->faculty_title = $this->db->table('account_localizations')->select('title')->getWhere(
+		['account_id' => $teacher->faculty_id, 'lang' => $this->lang], 1)->getRow()->title;
+		return [
 		'teacher' => $teacher,
 		'feed' => $this->dbGetFeedData($id),
 		'weblinks' => $this->dbGetWeblinkData($id),
 		'organizations' => $this->db->table('organization_members')
 			->join("organizations", 'organizations.organization_id = organization_members.organization_id')
 			->getWhere(['member_id' => $id])->getResult(),
-		'structures' => $this->db->table('structure_members')
-			->select([
-				'account_localizations.title as organization_title',
-				'structure_localizations.title as structure_title',
-				'structures.structure_id',
-				'structures.start_date',
-				'structures.end_date',
-				])
-			->join("structures", "structures.cabinet_id = structure_members.cabinet_id")
-			->join("account_localizations", "account_localizations.account_id = structures.structure_id AND account_localizations.lang = '$this->lang'", 'left outer')
-			->join("structure_localizations", "structure_localizations.cabinet_id = structure_members.cabinet_id"
-			." AND structure_localizations.member_id = structure_members.member_id"
-			." AND structure_localizations.lang = '$this->lang'", 'left outer')
-			->getWhere(['structure_members.member_id' => $id])->getResult(),
+		'structures' => $this->dbGetInvolvedStructureData($id),
+		'publications' => $this->db->table('teacher_publications')
+		->select([
+			'publication_id',
+			'teacher_publications.title as title',
+			'teacher_publications.date',
+			'teacher_publications.link',
+			'account_localizations.title as journal_title',
+			])
+		->join("account_localizations", "account_localizations.account_id = teacher_publications.journal_id AND account_localizations.lang = '$this->lang'", 'left outer')
+		->getWhere(['teacher_publications.teacher_id' => $id])->getResult(),
 	];
   }
 
@@ -292,6 +325,7 @@ class MainModel {
 		'structure' => $this->dbGetStructureData($id)->getResult(),
 		'feed' => $this->dbGetFeedData($id),
 		'weblinks' => $this->dbGetWeblinkData($id),
+		'events' => $this->dbGetEventData($id),
 	];
   }
 
@@ -312,6 +346,7 @@ class MainModel {
 		'structure' => $this->dbGetStructureData($id)->getResult(),
 		'feed' => $this->dbGetFeedData($id),
 		'weblinks' => $this->dbGetWeblinkData($id),
+		'events' => $this->dbGetEventData($id),
 	];
   }
 

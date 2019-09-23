@@ -1,6 +1,5 @@
 <?php include 'search-nav.php' ?>
 
-
 <div class="box-section">
 	<div class="campus-list">
 		<?php foreach ($departments as $department) : ?>

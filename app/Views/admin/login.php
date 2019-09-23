@@ -27,15 +27,20 @@
 				<div class="card-group">
 					<div class="card p-4">
 						<form action="<?=base_url('login')?>" method="post" class="card-body">
-							<h1>Login</h1>
-							<p class="text-muted">Sign In to your account</p>
+							<div class="align-items-center d-flex text-center">
+									<div class="flex-grow-1">
+									<h1>Login</h1>
+									<p class="text-muted">Masuk ke akun anda</p>
+									</div>
+									<img width="120px" class="float-left mb-3" src="<?=base_url('assets/images/sikat.png')?>">
+								</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
 									<span class="input-group-text">
 										<i class="fa fa-user"></i>
 									</span>
 								</div>
-								<input class="form-control" name="username" type="text" placeholder="Username" required>
+								<input class="form-control form-control-lg" name="username" type="text" placeholder="Username" required>
 							</div>
 							<div class="input-group mb-4">
 								<div class="input-group-prepend">
@@ -43,15 +48,15 @@
 										<i class="fa fa-lock"></i>
 									</span>
 								</div>
-								<input class="form-control" name="password" type="password" placeholder="Password">
+								<input class="form-control form-control-lg" name="password" type="password" placeholder="Password">
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<button class="btn btn-primary px-4" type="submit">Login</button>
+									<button class="btn btn-primary px-4" type="submit">Masuk</button>
+									<a class="btn btn-outline-secondary px-4" href="<?=base_url()?>">Kembali</a>
 								</div>
 								<div class="col-6 text-right">
-									<button class="btn btn-link px-0" type="button">Forgot password?</button>
-									<a class="btn btn-link px-0" href="<?=base_url()?>">Home</a>
+									<button class="btn btn-link px-0" type="button">Lupa password?</button>
 								</div>
 							</div>
 						</form>

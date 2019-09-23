@@ -1,17 +1,14 @@
 
-<?= view('minimalist/widgets/hero-unit', [
-	'id' => $program->program_id,
-	'name' => $program->title
-	])?>
+<?= view('minimalist/widgets/hero-unit')?>
 
 <div class="container">
 <div class="box-section">
 	<div class="container-label">Bio</div>
 	<div class="text-center col-md-6 m-auto">
-	<?=$program->summary?>
+	<?=$unit->summary?>
 </div>
 
-<?= view('minimalist/widgets/stats', [ 'id' => $program->program_id]); ?>
+<?= view('minimalist/widgets/stats'); ?>
 
 <?= view('minimalist/widgets/structure'); ?>
 

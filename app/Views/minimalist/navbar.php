@@ -4,9 +4,9 @@
   </a>
   <div class="flex-grow-1"></div>
   <form class="form-inline" action="<?=current_url()?>">
-    <input name="q" class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search" value="<?=$query?>">
+    <input name="q" class="form-control form-control-sm" type="search" placeholder="<?=lang('Campus.search')?>" aria-label="Search" value="<?=$query?>">
   </form>
-  <form class="form-inline  mr-sm-2" method="post" action="<?= base_url('switch_lang'); ?>">
+  <form class="form-inline mr-sm-2" method="post" action="<?= base_url('switch_lang'); ?>">
     <select class="form-control form-control-sm" name="lang" onchange="this.form.submit()">
       <option value="en" <?php if($lang == 'en') echo 'selected'; ?>>English</option>
       <option value="id" <?php if($lang == 'id') echo 'selected'; ?>>Indonesia</option>

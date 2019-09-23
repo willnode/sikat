@@ -36,14 +36,14 @@ class LoginModel {
 	}
 
 	function set_current_login($id) {
-		return $this->session->set_userdata('username', $id);
+		return session()->set('username', $id);
 	}
 
 	function check_login($user,$pwd){
 		$login = ['account_id' => $user];
 		if (!empty($pwd))
 			$login['password'] = sha1($pwd);
-		return $this->db->get_where('accounts',$login, 1)->num_rows() == 1;
+		return !empty($this->db->table('accounts')->getWhere($login, 1)->getRow());
 	}
 
 	function set_password($user,$pwd){
